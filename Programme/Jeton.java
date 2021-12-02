@@ -21,7 +21,7 @@ public class Jeton {
         boolean newDeal;
         int scoreBleus = 0;
         int scoreRouges = 0;
-
+    
         do {
             System.out.println("Jouer seul ? ");
             char reponse = input.next().charAt(0);
@@ -53,6 +53,7 @@ public class Jeton {
         } while (newDeal);
         System.out.println("Bye Bye !");
         System.exit(0);
+        afficheJeu();
 
     }
 
@@ -70,6 +71,21 @@ public class Jeton {
      * Affiche le plateau de jeu en mode texte
      */
     public static void afficheJeu(){
+        state = new String[NCASES]; //initialise le tableua dans lequel sera stocker les valeurs
+        for (int i = 0 ; i < NCASES ; i++ ){
+            state[i] = "";
+        }
+        int cpt = 1;
+        for(int i = 1; i <= NLIGNES; i++){
+            for(int j = 1; j <= cpt; j++) {
+                if(state[0] == ""){
+                    System.out.print("__");
+                }
+                System.out.print(state[0]);
+            }
+            System.out.println("");
+            cpt++;        
+        }
         
     }
 
