@@ -32,10 +32,9 @@ public class Jeton {
             int val = 1;
             int idCaseJouee;
 
-
             for (int i = 1 ; i <= (NCASES-1)/2 ; i++){
 
-
+                
 
                 iaRouge(); //j2 ou ia
 
@@ -66,30 +65,43 @@ public class Jeton {
      * Initialise le jeu avec un double/triple underscore à chaque case, signifiant 'case vide'
      */
     public static void initJeu() {
-        state = new String[NCASES]; //initialise le tableua dans lequel sera stocker les valeurs
+        state = new String[NCASES]; //initialise le tableau dans lequel sera stocker les valeurs
         for (int i = 0 ; i < NCASES ; i++ ){
             state[i] = "";
         }
+        state[2] = "R1";
+        state[20] = "B1";
+        state[15] = "B2";
     }
 
     /**
      * Affiche le plateau de jeu en mode texte
      */
     public static void afficheJeu(){
-        state = new String[NCASES]; //initialise le tableua dans lequel sera stocker les valeurs
-        for (int i = 0 ; i < NCASES ; i++ ){
-            state[i] = "";
-        }
-        int cpt = 1;
+        int idcase = 0;
+        String vide = "                    ";
+        String valeur;
+        String cmptL;
+        System.out.println("");
+        System.out.print("----------------------------------------");
+        System.out.println("------");
+        System.out.println("");
         for(int i = 1; i <= NLIGNES; i++){
-            for(int j = 1; j <= cpt; j++) {
-                if(state[0] == ""){
-                    System.out.print("__");
+            cmptL = " " + idDebutLigne(i) + "    ";
+            System.out.print(cmptL.substring(0, 3));
+            System.out.print(" :" + vide.substring(0, 18-(i*3)));
+            for(int j = 1; j <= i; j++) {
+                if(state[idcase] == ""){
+                    System.out.print(" ___ ");
                 }
-                System.out.print(state[0]);
+                else {
+                    valeur = state[idcase] + "  ";
+                    System.out.print(" " + valeur.substring(0, 3) + " ");
+                }
+                idcase++;
             }
             System.out.println("");
-            cpt++;        
+            System.out.println("");
         }
         
     }
