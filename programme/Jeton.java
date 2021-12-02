@@ -1,4 +1,4 @@
-package Programme;
+package programme;
 
 import java.util.Scanner;
 
@@ -33,9 +33,15 @@ public class Jeton {
             int val = 1;
             int idCaseJouee;
 
-		/*
-			le code de votre partie ici
-		*/
+
+            for (int i = 1 ; i <= (NCASES-1)/2 ; i++){
+
+
+
+                iaRouge(); //j2 ou ia
+
+            }
+
 
             int sumR = sommeVoisins("R");
             int sumB = sommeVoisins("B");
@@ -115,7 +121,11 @@ public class Jeton {
      * @return l'indice de la case la plus à droite de la ligne
      */
     public static int idFinLigne(int idLigne){
-        throw new java.lang.UnsupportedOperationException("à compléter");
+        int idFinLigne = 0;
+        for (int i = 1 ; i <= idLigne ; i++){
+            idFinLigne += i;
+        }
+        return idFinLigne - 1;
     }
 
     /**
