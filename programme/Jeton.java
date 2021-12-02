@@ -1,4 +1,3 @@
-package programme;
 
 import java.util.Scanner;
 
@@ -87,7 +86,14 @@ public class Jeton {
      * @return true si le jeton a pu être posé, false sinon.
      */
     public static boolean jouer(String couleur, int val, int pos){
-        throw new java.lang.UnsupportedOperationException("à compléter");
+        if ( state[pos] != ""){
+            return false;
+        }
+        else {
+            String temp =  couleur + val;
+            state[pos] = temp;
+            return true;
+        }
     }
 
     /**
@@ -96,7 +102,11 @@ public class Jeton {
      * @return l'indice de la case la plus à gauche de la ligne
      */
     public static int idDebutLigne(int idLigne){
-        throw new java.lang.UnsupportedOperationException("à compléter");
+        int idDebutLigne = 0;
+        for ( int i = 1 ; i < idLigne ; i ++){
+            idDebutLigne += i;
+        }
+        return idDebutLigne;
     }
 
     /**
