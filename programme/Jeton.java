@@ -29,15 +29,22 @@ public class Jeton {
             initJeu();
             afficheJeu();
 
-            int val = 1;
             int idCaseJouee;
 
-            for (int i = 1 ; i <= (NCASES-1)/2 ; i++){
+            for ( int val = 1 ; val <= (NCASES-1)/2 ; val++){
 
-                
+                System.out.println("Entre le numéro de la case " +
+                        "ou vous voulez posez le jeton :");
+                do {
+                    jouer(COULEURS[0], val, Integer.parseInt(input.next()));
+                }
+                while ((jouer(COULEURS[0]
+                        , val
+                        , Integer.parseInt(input.next()))) == false );
 
-                iaRouge(); //j2 ou ia
+                jouer(COULEURS[1], val, iaRouge());
 
+                afficheJeu();
             }
 
 
@@ -115,6 +122,7 @@ public class Jeton {
      */
     public static boolean jouer(String couleur, int val, int pos){
         if ( state[pos] != ""){
+            System.out.println("case deja occuper entrer un autre valeur");
             return false;
         }
         else {
@@ -182,6 +190,7 @@ public class Jeton {
 		tout en conservant l'appel à la fonction,
 		cela peut s'avérer utile lors du développement.
 	*/
+        System.out.println("Joueur 2 ou ia : ");
         return Integer.parseInt(input.next());
     }
 }
