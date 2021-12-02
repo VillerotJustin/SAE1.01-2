@@ -1,3 +1,5 @@
+package Programme;
+
 import java.util.Scanner;
 
 /**
@@ -5,7 +7,7 @@ import java.util.Scanner;
  */
 public class Jeton {
     static final Scanner input = new Scanner(System.in);
-    public static String[] state;
+    public static String[] state; //tableau valeur
     static final int NCASES = 21;
     static final int NLIGNES = 6; 
     static final String[] COULEURS = {"B", "R"};
@@ -58,8 +60,10 @@ public class Jeton {
      * Initialise le jeu avec un double/triple underscore à chaque case, signifiant 'case vide'
      */
     public static void initJeu() {
-        
-        
+        state = new String[NCASES]; //initialise le tableua dans lequel sera stocker les valeurs
+        for (int i = 0 ; i < NCASES ; i++ ){
+            state[i] = "";
+        }
     }
 
     /**
