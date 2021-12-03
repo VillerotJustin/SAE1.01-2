@@ -1,6 +1,3 @@
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,12 +18,14 @@ public class Jeton {
         return "yYoO".indexOf(reponse) != -1;
     }
     
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         boolean newDeal;
         int scoreBleus = 0;
         int scoreRouges = 0;
-    
+        String text = "Entre le numéro de la case" +
+                " ou vous voulez posez le jeton :";
+
         do {
             System.out.println("Jouer seul ? ");
             char reponse = input.next().charAt(0);
@@ -43,8 +42,7 @@ public class Jeton {
             if (single) {
                 for ( int val = 1 ; val <= (NCASES-1)/2 ; val++){
 
-                    System.out.println("Entre le numéro de la case " +
-                            "ou vous voulez posez le jeton :");
+                    System.out.println();
                     do {
                         idCaseJouee = Integer.parseInt(input.next());
                         verif = jouer(COULEURS[0], val, idCaseJouee);
@@ -67,8 +65,7 @@ public class Jeton {
             else  { //---------------------Deux joueur--------------------------
                 for ( int val = 1 ; val <= (NCASES-1)/2 ; val++){
 
-                    System.out.println("Entre le numéro de la case " +
-                            "ou vous voulez posez le jeton :");
+                    System.out.println(text);
                     do {
                         idCaseJouee = Integer.parseInt(input.next());
                         verif = jouer(COULEURS[0], val, idCaseJouee);
@@ -78,8 +75,7 @@ public class Jeton {
                     //fin tour joueur 1
                     afficheJeu();
 
-                    System.out.println("Entre le numéro de la case " +
-                            "ou vous voulez posez le jeton : (joueur 2)");
+                    System.out.println(text + " (joueur 2)");
                     do {
                         idCaseJouee = Integer.parseInt(input.next());
                         verif = jouer(COULEURS[1], val, idCaseJouee);
@@ -95,13 +91,29 @@ public class Jeton {
             int sumR = sommeVoisins("R");
             int sumB = sommeVoisins("B");
 
-            if ( sumB < sumR)
+            if ( sumB < sumR){
                 System.out.println("Les bleus gagnent par "+sumB+" à "+sumR);
+                scoreBleus++;
+            }
             else if (sumB == sumR)
                 System.out.println("Égalité : "+sumB+" partout !");
-            else
+            else {
                 System.out.println("Les rouges gagnent par "+sumR+" à "+sumB);
+                scoreRouges++;
+            }
 
+            if (scoreBleus < scoreRouges){
+                System.out.println(" Les Rouges domminent avec : "
+                        +scoreRouges+"contre "+scoreBleus);
+            }
+            else if (scoreBleus > scoreRouges){
+
+                System.out.println(" Les Bleus domminent avec : "
+                        +scoreBleus+" contre "+scoreRouges);
+            }
+            else {
+                System.out.println("Égalité : "+scoreRouges+" partout !");
+            }
             System.out.println("Nouvelle partie ? ");
             reponse = input.next().charAt(0);
             newDeal = estOui(reponse);
@@ -128,7 +140,8 @@ public class Jeton {
     public static void afficheJeu(){
         int idcase = 0;
         String vide = "                    ";
-        String valeur, cmptL;
+        String valeur;
+        String cmptL;
         System.out.println("");
         System.out.print("----------------------------------------");
         System.out.println("------");
@@ -138,7 +151,7 @@ public class Jeton {
             System.out.print(cmptL.substring(0, 3));
             System.out.print(" :" + vide.substring(0, 18-(i*3)));
             for(int j = 1; j <= i; j++) {
-                if(state[idcase] == ""){
+                if(state[idcase].equals("")){
                     System.out.print(" ___ ");
                 }
                 else {
@@ -170,7 +183,7 @@ public class Jeton {
             System.out.println("error : invalid position number");
             return false;
         }
-        if ( state[pos] != ""){
+        if ( !(state[pos].equals("")) ){
             System.out.println("case deja occuper entrer un autre valeur");
             return false;
         }
@@ -214,7 +227,7 @@ public class Jeton {
     public static int getIdVide(){
         int idVide = 0;
         for (int i = 0 ; i < NCASES ; i++){
-            if (state[i] == "")
+            if (state[i].equals(""))
                 idVide = i;
         }
         return idVide;
@@ -269,7 +282,6 @@ public class Jeton {
                     if ( (state[5].substring(0, 1)).equals(col) ){
                         sommeVoisins+= Integer.parseInt(state[5].substring(1));
                     }
-
                     break;
 
                 case 5:
@@ -282,8 +294,8 @@ public class Jeton {
                     if ( (state[9].substring(0, 1)).equals(col) ){
                         sommeVoisins+= Integer.parseInt(state[9].substring(1));
                     }
-
                     break;
+
                 case 9:
                     if ( (state[5].substring(0, 1)).equals(col) ){
                         sommeVoisins+= Integer.parseInt(state[5].substring(1));
@@ -295,6 +307,7 @@ public class Jeton {
                         sommeVoisins+= Integer.parseInt(state[14].substring(1));
                     }
                     break;
+
                 case 14:
                     if ( (state[9].substring(0, 1)).equals(col) ){
                         sommeVoisins+= Integer.parseInt(state[9].substring(1));
@@ -306,6 +319,8 @@ public class Jeton {
                         sommeVoisins+= Integer.parseInt(state[19].substring(1));
                     }
                     break;
+                default:
+                    System.out.println("error");
             }
 
         }//case a droite
@@ -361,6 +376,8 @@ public class Jeton {
                         sommeVoisins+= Integer.parseInt(state[16].substring(1));
                     }
                     break;
+                default:
+                    System.out.println("error");
             }
         }//case a gauche
         else if (idVide > 15 && idVide < 20){
