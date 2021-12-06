@@ -243,7 +243,6 @@ public class Jeton {
     public static int sommeVoisins(String col){
         int idVide = getIdVide();
         int sommeVoisins = 0;
-        int numLigne = numligne(idVide);
         if (idVide == 0){
             if ( (state[1].substring(0, 1)).equals(col) ){
                 sommeVoisins += Integer.parseInt(state[1].substring(1));
@@ -451,21 +450,6 @@ public class Jeton {
         return sommeVoisins;
     }
 
-
-    /**
-     * rend le numero de la ligne de la case avec pour id idCase
-     * @param idCase id de la case dont on cherche la ligne
-     * @return
-     */
-    public static int numligne(int idCase){
-        for (int i=1 ; i <= NLIGNES ; i++){
-            if ( idDebutLigne(i) >= idCase && idFinLigne(i) <= idCase){
-                return i;
-            }
-        }
-        System.out.println("error : can't find ligne number");
-        return -1;
-    }
     /**
      * Renvoie le prochain coup à jouer pour les rouges
      * Algo naïf = la première case dispo
