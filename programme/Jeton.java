@@ -4,10 +4,10 @@ import java.util.Scanner;
  * Created by zulupero on 24/09/2021.
  */
 public class Jeton {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String RESET = "\u001B[0m";
+    public static final String TWHITE = "\u001B[37m";
+    public static final String RBACKGROUND = "\u001B[41m";
+    public static final String BBACKGROUND = "\u001B[44m";
     static final Scanner input = new Scanner(System.in);
     public static String[] state; //tableau valeur
     static final int NCASES = 21;
@@ -25,7 +25,6 @@ public class Jeton {
         int scoreRouges = 0;
         String text = "Entre le numéro de la case" +
                 " ou vous voulez posez le jeton :";
-
         do {
             System.out.println("Jouer seul ? ");
             char reponse = input.next().charAt(0);
@@ -88,8 +87,8 @@ public class Jeton {
             }
 
 
-            int sumR = sommeVoisins("R");
-            int sumB = sommeVoisins("B");
+            int sumB = sommeVoisins(COULEURS[0]);
+            int sumR = sommeVoisins(COULEURS[1]);
 
             if ( sumB < sumR){
                 System.out.println("Les bleus gagnent par "+sumB+" à "+sumR);
@@ -157,10 +156,12 @@ public class Jeton {
                 else {
                     valeur = state[idcase] + "  ";
                     if ( (valeur.substring(0, 1)).equals(COULEURS[0]) ){
-                        System.out.print( " " + ANSI_BLUE_BACKGROUND + ANSI_WHITE + valeur.substring(0, 3) + ANSI_RESET + " " );
+                        System.out.print( " " + BBACKGROUND + TWHITE + valeur.substring(0, 3) + RESET + " " );
                     }
                     else {
-                        System.out.print( " " + ANSI_RED_BACKGROUND + ANSI_WHITE + valeur.substring(0, 3) + ANSI_RESET + " " );
+                        System.out.print( " "
+                                + RBACKGROUND
+                                + TWHITE + valeur.substring(0, 3) + RESET + " " );
                     }
                 }
                 idcase++;
@@ -449,6 +450,23 @@ public class Jeton {
         } // centre
         return sommeVoisins;
     }
+
+
+    /**
+     * rend le numero de la ligne de la case avec pour id idCase
+     * @param idCase id de la case dont on cherche la ligne
+     * @return
+     */
+    public static int numligne(int idCase){
+        for (int i=1 ; i <= NLIGNES ; i++){
+            if ( idDebutLigne(i) <= idCase && idFinLigne(i) >= idCase){
+                return i;
+            }
+        }
+        System.out.println("error : can't find ligne number");
+        return -1;
+    }
+
 
     /**
      * Renvoie le prochain coup à jouer pour les rouges
