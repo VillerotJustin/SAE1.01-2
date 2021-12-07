@@ -1,4 +1,6 @@
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -10,10 +12,13 @@ public class Jeton {
     public static final String RBACKGROUND = "\u001B[41m";
     public static final String BBACKGROUND = "\u001B[44m";
     static final Scanner input = new Scanner(System.in);
-    public static String[] state; //tableau valeur
+    private static String[] state; //tableau valeur
     static final int NCASES = 21;
     static final int NLIGNES = 6; 
     static final String[] COULEURS = {"B", "R"};
+    static final Random rand = new Random(); // pour permetre de generer des nombres aléatoires
+    private static int scoreBleus = 0; //variables scores
+    private static int scoreRouges = 0;
 
     static boolean estOui(char reponse) {
         return "yYoO".indexOf(reponse) != -1;
@@ -22,25 +27,34 @@ public class Jeton {
     public static void main(String[] args) {
 
         boolean newDeal;
-        int scoreBleus = 0;
-        int scoreRouges = 0;
+        //deplacement des score pour pouvoir y acceder depuis tout le code
+
         String text = "Entre le numéro de la case" +
                 " ou vous voulez posez le jeton :";
         do {
-            System.out.println("Jouer seul ? ");
-            char reponse = input.next().charAt(0);
-            boolean single = estOui(reponse);
-
-            //----------inititalisation et création des variables---------
+            //----------inititalisation et création des variables-------------
             initJeu();
             afficheJeu();
 
             Integer idCaseJouee;
             boolean verif;
+            int level = 0;
 
+            //------------------------Question debut de partie----------------
+
+            System.out.println("Jouer seul ? ");
+            char reponse = input.next().charAt(0);
+            boolean single = estOui(reponse);
+
+            if (single){
+                System.out.println("Entrer le niveau de l'IA (0, 1 ou 2) : ");
+                level = input.nextInt();
+            }
+            //------------------------Déroulement de la manche----------------
 
             for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) {
                 System.out.println();
+                System.out.println(text);
                 do {
                     idCaseJouee = Integer.parseInt(input.next());
                     verif = jouer(COULEURS[0], val, idCaseJouee);
@@ -50,42 +64,34 @@ public class Jeton {
                 afficheJeu();
 
                 if (single) {
-                    do {//---------------------Un joueur---------------------------
-                        idCaseJouee = iaRouge();
+                    do {//---------------------Un joueur----------------------
+                        switch (level) {
+                            case 1: idCaseJouee = iaRouge1(); break;
+                            case 2: idCaseJouee = iaRouge2(); break;
+                            default: idCaseJouee = iaRouge(); break;
+                        }
                         verif = jouer(COULEURS[1], val, idCaseJouee);
                     }
                     while (!verif);
-                    afficheJeu();
                     //fin tour iA / Joueur 2
                 } else {
                     System.out.println(text + " (joueur 2)");
-                    do {//---------------------Deux joueur--------------------------
+                    do {//---------------------Deux joueur--------------------
                         idCaseJouee = Integer.parseInt(input.next());
                         verif = jouer(COULEURS[1], val, idCaseJouee);
                     }
                     while (!verif);
                 }
+                afficheJeu();
             }
 
 
             int sumB = sommeVoisins(COULEURS[0]);
             int sumR = sommeVoisins(COULEURS[1]);
 
-            if ( sumB < sumR){
-                System.out.println("Les bleus gagnent par "+sumB+" à "+sumR);
-                scoreBleus++;
-            }
-            else if (sumB == sumR)
-                System.out.println("Égalité : "+sumB+" partout !");
-            else {
-                System.out.println("Les rouges gagnent par "+sumR+" à "+sumB);
-                scoreRouges++;
-            }
+            score(sumB, sumR);
 
-            System.out.println(" Le score est de :");
-            System.out.println(" - Bleu "+scoreBleus);
-            System.out.println(" - Rouge "+scoreRouges);
-            System.out.println("Nouvelle partie ? ");
+            System.out.println("Nouvelle Manche ? ");
             reponse = input.next().charAt(0);
             newDeal = estOui(reponse);
         } while (newDeal);
@@ -112,14 +118,15 @@ public class Jeton {
         int idcase = 0;
         String vide = "                    ";
         String valeur;
-        String cmptL;
-        System.out.println("");
+        String cmptL; //initialistation de la variable compteur
+        System.out.println();
         System.out.print("----------------------------------------");
         System.out.println("------");
-        System.out.println("");
+        System.out.println();
         for(int i = 1; i <= NLIGNES; i++){
             cmptL = " " + idDebutLigne(i) + "\t";
-            System.out.print(cmptL + ": ");
+            //création de la chaine de character qui affiche le numéro de début de ligne.
+            System.out.print(cmptL + ": "); //affichage du compteur
             System.out.print(vide.substring(0, 18-(i*3)));
             for(int j = 1; j <= i; j++) {
                 if(state[idcase].equals("")){
@@ -128,18 +135,19 @@ public class Jeton {
                 else {
                     valeur = state[idcase] + "  ";
                     if ( (valeur.substring(0, 1)).equals(COULEURS[0]) ){
-                        System.out.print( " " + BBACKGROUND + TWHITE + valeur.substring(0, 3) + RESET + " " );
+                        System.out.print( " "+BBACKGROUND+TWHITE
+                                +valeur.substring(0, 3)+RESET+" " );
                     }
                     else {
                         System.out.print( " "
                                 + RBACKGROUND
-                                + TWHITE + valeur.substring(0, 3) + RESET + " " );
+                                + TWHITE+valeur.substring(0, 3)+RESET+" " );
                     }
                 }
                 idcase++;
             }
-            System.out.println("");
-            System.out.println("");
+            System.out.println();
+            System.out.println();
         }
         
     }
@@ -216,209 +224,45 @@ public class Jeton {
     public static int sommeVoisins(String col){
         int idVide = getIdVide();
         int sommeVoisins = 0;
+        int idligne = numligne(idVide);
         if (idVide == 0){
-            if ( (state[1].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[1].substring(1));
-            }
-            if ( (state[2].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[2].substring(1));
-            }
+            sommeVoisins += verifCouleur(col, state[1]);
+            sommeVoisins += verifCouleur(col, state[2]);
         } //haut
         else if (idVide == 15){
-            if ( (state[10].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[10].substring(1));
-            }
-            if ( (state[16].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[16].substring(1));
-            }
+            sommeVoisins += verifCouleur(col, state[10]);
+            sommeVoisins += verifCouleur(col, state[16]);
         } // bas droite
         else if (idVide == 20){
-            if ( (state[14].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[14].substring(1));
-            }
-            if ( (state[19].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[19].substring(1));
-            }
+            sommeVoisins += verifCouleur(col, state[14]);
+            sommeVoisins += verifCouleur(col, state[19]);
         } // bas gauche
-        else if (idVide == 2 || idVide == 5|| idVide ==9 || idVide == 14){
-            if ( (state[idVide-1].substring(0, 1)).equals(col) ){ //bon
-                sommeVoisins += Integer.parseInt(state[idVide-1].substring(1));
-            }
-            switch (idVide){
-                case 2:
-                    if ( (state[0].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[0].substring(1));
-                    }
-                    if ( (state[4].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[4].substring(1));
-                    }
-                    if ( (state[5].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[5].substring(1));
-                    }
-                    break;
-
-                case 5:
-                    if ( (state[2].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[2].substring(1));
-                    }
-                    if ( (state[8].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[8].substring(1));
-                    }
-                    if ( (state[9].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[9].substring(1));
-                    }
-                    break;
-
-                case 9:
-                    if ( (state[5].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[5].substring(1));
-                    }
-                    if ( (state[13].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[13].substring(1));
-                    }
-                    if ( (state[14].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[14].substring(1));
-                    }
-                    break;
-
-                case 14:
-                    if ( (state[9].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[9].substring(1));
-                    }
-                    if ( (state[20].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[20].substring(1));
-                    }
-                    if ( (state[19].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[19].substring(1));
-                    }
-                    break;
-                default:
-                    System.out.println("error");
-            }
-
+        else if (idVide == idFinLigne(idligne)){
+            sommeVoisins += verifCouleur(col, state[idVide-1]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne+1]);
         }//case a droite
         else if (idVide == 1 || idVide == 3|| idVide ==6 || idVide == 10){
-            if ( (state[idVide+1].substring(0, 1)).equals(col) ){ //bon
-                sommeVoisins += Integer.parseInt(state[idVide+1].substring(1));
-            }
-            switch (idVide){
-                case 1:
-                    if ( (state[0].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[0].substring(1));
-                    }
-                    if ( (state[4].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[4].substring(1));
-                    }
-                    if ( (state[3].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[3].substring(1));
-                    }
-
-                    break;
-
-                case 3:
-                    if ( (state[1].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[1].substring(1));
-                    }
-                    if ( (state[7].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[7].substring(1));
-                    }
-                    if ( (state[6].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[6].substring(1));
-                    }
-
-                    break;
-                case 6:
-                    if ( (state[3].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[3].substring(1));
-                    }
-                    if ( (state[10].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[10].substring(1));
-                    }
-                    if ( (state[11].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[11].substring(1));
-                    }
-                    break;
-                case 10:
-                    if ( (state[6].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[6].substring(1));
-                    }
-                    if ( (state[15].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[15].substring(1));
-                    }
-                    if ( (state[16].substring(0, 1)).equals(col) ){
-                        sommeVoisins+= Integer.parseInt(state[16].substring(1));
-                    }
-                    break;
-                default:
-                    System.out.println("error");
-            }
+            sommeVoisins += verifCouleur(col, state[idVide+1]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne+1]);
         }//case a gauche
         else if (idVide > 15 && idVide < 20){
-            if ( (state[idVide-1].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[idVide-1].substring(1));
-            }
-            if ( (state[idVide+1].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[idVide+1].substring(1));
-            }
-            if ( (state[idVide-6].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[idVide-6].substring(1));
-            }
-            if ( (state[idVide-5].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[idVide-5].substring(1));
-            }//case en bas
+            sommeVoisins += verifCouleur(col, state[idVide+1]);
+            sommeVoisins += verifCouleur(col, state[idVide-1]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
         }//case bas
         else{
-            if ( (state[idVide-1].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[idVide-1].substring(1));
-            }//bon
-            if ( (state[idVide+1].substring(0, 1)).equals(col) ){
-                sommeVoisins += Integer.parseInt(state[idVide+1].substring(1));
-            }//bon
-            if (idVide == 4){
-                if ( (state[1].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[1].substring(1));
-                }
-                if ( (state[2].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[2].substring(1));
-                }
-                if ( (state[7].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[7].substring(1));
-                }
-                if ( (state[8].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[8].substring(1));
-                }
-            }
-            else if (idVide == 7 || idVide == 8){
-                if ( (state[idVide-4].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[idVide-4].substring(1));
-                }
-                if ( (state[idVide-3].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[idVide-3].substring(1));
-                }
-                if ( (state[idVide+4].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[idVide+4].substring(1));
-                }
-                if ( (state[idVide+5].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[idVide+5].substring(1));
-                }
-            }//bon
-            else {
-                if ( (state[idVide-5].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[idVide-5].substring(1));
-                }
-                if ( (state[idVide-4].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[idVide-4].substring(1));
-                }
-                if ( (state[idVide+5].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[idVide+5].substring(1));
-                }
-                if ( (state[idVide+6].substring(0, 1)).equals(col) ){
-                    sommeVoisins += Integer.parseInt(state[idVide+6].substring(1));
-                }
-            }//bon
+            sommeVoisins += verifCouleur(col, state[idVide+1]);
+            sommeVoisins += verifCouleur(col, state[idVide-1]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
 
-
-            System.out.println("centre");
         } // centre
         return sommeVoisins;
     }
@@ -427,7 +271,7 @@ public class Jeton {
     /**
      * rend le numero de la ligne de la case avec pour id idCase
      * @param idCase id de la case dont on cherche la ligne
-     * @return
+     * @return  numero de la ligne
      */
     public static int numligne(int idCase){
         for (int i=1 ; i <= NLIGNES ; i++){
@@ -441,18 +285,86 @@ public class Jeton {
 
 
     /**
-     * Renvoie le prochain coup à jouer pour les rouges
+     * verifie la couleur de la case et rend la valuer si la couleur correspond
+     * @param col couleur rechercher
+     * @param stateToCheck couleur + valeur de la case
+     * @return rend la valeur de la case ou 0 si mauvaise couleur
+     */
+    public static int verifCouleur(String col, String stateToCheck){
+        int valeur = 0;
+        if ( (stateToCheck.substring(0, 1)).equals(col) ){
+            valeur += Integer.parseInt(stateToCheck.substring(1));
+        }
+        return valeur;
+    }
+
+    /**
+     * Renvoie le prochain coup à jouer pour les rouges le premier disponible
      * Algo naïf = la première case dispo
      * @return id de la case
      */
     public static int iaRouge(){
-	/*
+        for (int i = 0 ; i < NCASES ; i++ ){
+            if (state[i].isEmpty())
+                return i;
+        }
+        return 0;
+    }
+
+    /** renvoy le prochain coup pour les rouges random
+     * Cette ia genere une cases aléotoire parmis les cases vides
+     * @return id de la case
+     */
+    public static int iaRouge1(){
+        List<Integer> emptycase = new ArrayList<>();
+        for (int i = 0 ; i < NCASES ; i++ ){
+            if (state[i].isEmpty())
+                emptycase.add(i);
+        }
+        return emptycase.get(rand.nextInt(emptycase.size()));
+    }
+
+    /**
+     *
+     * @return id de la case
+     */
+    public static int iaRouge2(){
+        return rand.nextInt(20);
+    }
+
+    /*
 		Écire un véritable code sachant jouer.
 		La ligne du return ci-dessous doit donc naturellement aussi être ré-écrite.
-		Cette version ne permet que de reproduire le fonctionnement à 2 joueurs 
+		Cette version ne permet que de reproduire le fonctionnement à 2 joueurs
 		tout en conservant l'appel à la fonction,
 		cela peut s'avérer utile lors du développement.
 	*/
-        return (int)(Math.random()*20);
+
+    /**
+     * affiche qui a gagné la manche et adapte le score
+     * @param sumB somme des bleu
+     * @param sumR somme des rouges
+     */
+    public static void score(int sumB, int sumR){
+        if ( sumB < sumR){
+            System.out.println("Les bleus gagnent par "+sumB+" à "+sumR);
+            scoreBleus++;
+        }
+        else if (sumB == sumR)
+            System.out.println("Égalité : "+sumB+" partout !");
+        else {
+            System.out.println("Les rouges gagnent par "+sumR+" à "+sumB);
+            scoreRouges++;
+        }
+        if ( scoreRouges < scoreBleus){
+            System.out.println("Les bleus gagnent la partie par "
+                    +scoreBleus+" manche à "+scoreRouges);
+        }
+        else if (scoreRouges == scoreBleus)
+            System.out.println("Égalité : "+scoreRouges+" partout !");
+        else {
+            System.out.println("Les Rouges gagnent la partie par "
+                    +scoreRouges+" manche à "+scoreBleus);
+        }
     }
 }
