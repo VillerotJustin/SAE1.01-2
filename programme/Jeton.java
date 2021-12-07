@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 /**
@@ -37,52 +38,32 @@ public class Jeton {
             Integer idCaseJouee;
             boolean verif;
 
-            //---------------------Un joueur---------------------------
-            if (single) {
-                for ( int val = 1 ; val <= (NCASES-1)/2 ; val++){
 
-                    System.out.println();
-                    do {
-                        idCaseJouee = Integer.parseInt(input.next());
-                        verif = jouer(COULEURS[0], val, idCaseJouee);
-                    }
-                    while (!verif);
+            for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) {
+                System.out.println();
+                do {
+                    idCaseJouee = Integer.parseInt(input.next());
+                    verif = jouer(COULEURS[0], val, idCaseJouee);
+                }
+                while (!verif);
+                //fin tour joueur 1
+                afficheJeu();
 
-                    //fin tour joueur 1
-                    afficheJeu();
-
-                    do {
+                if (single) {
+                    do {//---------------------Un joueur---------------------------
                         idCaseJouee = iaRouge();
                         verif = jouer(COULEURS[1], val, idCaseJouee);
                     }
                     while (!verif);
-
                     afficheJeu();
                     //fin tour iA / Joueur 2
-                }
-            }
-            else  { //---------------------Deux joueur--------------------------
-                for ( int val = 1 ; val <= (NCASES-1)/2 ; val++){
-
-                    System.out.println(text);
-                    do {
-                        idCaseJouee = Integer.parseInt(input.next());
-                        verif = jouer(COULEURS[0], val, idCaseJouee);
-                    }
-                    while (!verif);
-
-                    //fin tour joueur 1
-                    afficheJeu();
-
+                } else {
                     System.out.println(text + " (joueur 2)");
-                    do {
+                    do {//---------------------Deux joueur--------------------------
                         idCaseJouee = Integer.parseInt(input.next());
                         verif = jouer(COULEURS[1], val, idCaseJouee);
                     }
                     while (!verif);
-
-                    afficheJeu();
-                    //fin tour iA / Joueur 2
                 }
             }
 
@@ -101,18 +82,9 @@ public class Jeton {
                 scoreRouges++;
             }
 
-            if (scoreBleus < scoreRouges){
-                System.out.println(" Les Rouges domminent avec : "
-                        +scoreRouges+"contre "+scoreBleus);
-            }
-            else if (scoreBleus > scoreRouges){
-
-                System.out.println(" Les Bleus domminent avec : "
-                        +scoreBleus+" contre "+scoreRouges);
-            }
-            else {
-                System.out.println("Égalité : "+scoreRouges+" partout !");
-            }
+            System.out.println(" Le score est de :");
+            System.out.println(" - Bleu "+scoreBleus);
+            System.out.println(" - Rouge "+scoreRouges);
             System.out.println("Nouvelle partie ? ");
             reponse = input.next().charAt(0);
             newDeal = estOui(reponse);
@@ -146,9 +118,9 @@ public class Jeton {
         System.out.println("------");
         System.out.println("");
         for(int i = 1; i <= NLIGNES; i++){
-            cmptL = " " + idDebutLigne(i) + "    ";
-            System.out.print(cmptL.substring(0, 3));
-            System.out.print(" :" + vide.substring(0, 18-(i*3)));
+            cmptL = " " + idDebutLigne(i) + "\t";
+            System.out.print(cmptL + ": ");
+            System.out.print(vide.substring(0, 18-(i*3)));
             for(int j = 1; j <= i; j++) {
                 if(state[idcase].equals("")){
                     System.out.print(" ___ ");

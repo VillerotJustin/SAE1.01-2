@@ -1,13 +1,0 @@
-
-h
-java:S3776"RRefactor this method to reduce its Cognitive Complexity from 34 to the 15 allowed.(Çµí‘
-<
-java:S2386‚" Make member "state" "protected".(Ü¦Öõýÿÿÿÿ
-o
-java:S3776ô"SRefactor this method to reduce its Cognitive Complexity from 155 to the 15 allowed.(«¯þùÿÿÿÿ
-L
-java:S2140ä")Use "java.util.Random.nextInt()" instead.(†ùþŠÿÿÿÿÿ8ºÃÿ…Ù/
-l
-java:S1104"QMake state a static final constant or non-public and provide accessors if needed.(î©Ë™ÿÿÿÿÿ
-F
-java:S1444"+Make this "public static state" field final(î©Ë™ÿÿÿÿÿ

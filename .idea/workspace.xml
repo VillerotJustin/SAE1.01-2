@@ -5,6 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/0/2094a336750805aac454771ead5e9ea0563724ca" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/programme/Jeton.class" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/programme/Jeton.java" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +59,7 @@
       <workItem from="1638454986601" duration="7866000" />
       <workItem from="1638514941582" duration="13599000" />
       <workItem from="1638860644335" duration="3690000" />
+      <workItem from="1638890735480" duration="1300000" />
     </task>
     <task id="LOCAL-00001" summary="idFinLigne">
       <created>1638457463309</created>
