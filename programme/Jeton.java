@@ -1,10 +1,9 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.security.PublicKey;
+import java.util.*;
 
 /**
  * Created by zulupero on 24/09/2021.
+ * Updated by Villerot Justin and Nathan on  09/11/2021.
  */
 public class Jeton {
     public static final String RESET = "\u001B[0m";
@@ -19,6 +18,7 @@ public class Jeton {
     static final Random rand = new Random(); // pour permetre de generer des nombres aléatoires
     private static int scoreBleus = 0; //variables scores
     private static int scoreRouges = 0;
+    public static final double RCERCLE = 15;
 
     static boolean estOui(char reponse) {
         return "yYoO".indexOf(reponse) != -1;
@@ -34,7 +34,7 @@ public class Jeton {
         do {
             //----------inititalisation et création des variables-------------
             initJeu();
-            afficheJeu();
+            initJeuSTDDraw();
 
             Integer idCaseJouee;
             boolean verif;
@@ -52,6 +52,9 @@ public class Jeton {
             }
             //------------------------Déroulement de la manche----------------
 
+            afficheJeu();
+            afficheJeuStdDraw();
+
             for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) {
                 System.out.println();
                 System.out.println(text);
@@ -62,6 +65,7 @@ public class Jeton {
                 while (!verif);
                 //fin tour joueur 1
                 afficheJeu();
+                afficheJeuStdDraw();
 
                 if (single) {
                     do {//---------------------Un joueur----------------------
@@ -83,6 +87,7 @@ public class Jeton {
                     while (!verif);
                 }
                 afficheJeu();
+                afficheJeuStdDraw();
             }
 
 
@@ -299,6 +304,36 @@ public class Jeton {
     }
 
     /**
+     * affiche qui a gagné la manche et adapte le score
+     * @param sumB somme des bleu
+     * @param sumR somme des rouges
+     */
+    public static void score(int sumB, int sumR){
+        if ( sumB < sumR){
+            System.out.println("Les bleus gagnent par "+sumB+" à "+sumR);
+            scoreBleus++;
+        }
+        else if (sumB == sumR)
+            System.out.println("Égalité : "+sumB+" partout !");
+        else {
+            System.out.println("Les rouges gagnent par "+sumR+" à "+sumB);
+            scoreRouges++;
+        }
+        if ( scoreRouges < scoreBleus){
+            System.out.println("Les bleus gagnent la partie par "
+                    +scoreBleus+" manche à "+scoreRouges);
+        }
+        else if (scoreRouges == scoreBleus)
+            System.out.println("Égalité : "+scoreRouges+" partout !");
+        else {
+            System.out.println("Les Rouges gagnent la partie par "
+                    +scoreRouges+" manche à "+scoreBleus);
+        }
+    }
+
+    // ------------------------------IA----------------------------------------
+
+    /**
      * Renvoie le prochain coup à jouer pour les rouges le premier disponible
      * Algo naïf = la première case dispo
      * @return id de la case
@@ -340,31 +375,112 @@ public class Jeton {
 		cela peut s'avérer utile lors du développement.
 	*/
 
+
+    // ------------------------------Affichage stdDraw-------------------------
+
     /**
-     * affiche qui a gagné la manche et adapte le score
-     * @param sumB somme des bleu
-     * @param sumR somme des rouges
+     * Initialise l'interface STDDraw
      */
-    public static void score(int sumB, int sumR){
-        if ( sumB < sumR){
-            System.out.println("Les bleus gagnent par "+sumB+" à "+sumR);
-            scoreBleus++;
+    public static void initJeuSTDDraw() {
+        StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
+        StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
+        StdDraw.clear(StdDraw.WHITE); //fond d'écrans en blanc
+        double yLigne= 80;//initialisation de l'ordonnées des lignes de valeurs
+        double dCercle = 2 * RCERCLE;
+        int idCase=0;
+        String idCaseString;
+        double xCaseLignePaire;
+        double xCaseLigneImpaire;
+        int decalage=0;
+        for (int ligne = 1 ; ligne <= NLIGNES ; ligne++){   // Parcours des lignes
+            if ((ligne%2)==0)             // augmente le décalage toute les ligne paires
+                decalage++;
+            for (int emplacement = 0 ; emplacement < ligne ; emplacement++){
+                idCaseString = Integer.toString(idCase);
+                xCaseLignePaire = RCERCLE+dCercle*emplacement;
+                xCaseLigneImpaire = (0+dCercle*emplacement);
+                if ( ( ligne % 2 ) != 0){
+                    StdDraw.circle(xCaseLigneImpaire-(dCercle*decalage)
+                            , yLigne
+                            , RCERCLE);
+                    StdDraw.text(xCaseLigneImpaire-(dCercle*decalage)
+                            , yLigne
+                            , idCaseString);
+                }
+                else {
+                    StdDraw.circle(xCaseLignePaire-(dCercle*decalage)
+                            , yLigne
+                            , RCERCLE);
+                    StdDraw.text(xCaseLignePaire-(dCercle*decalage)
+                            , yLigne
+                            , idCaseString);
+                }
+                idCase++;
+            }
+            yLigne-= dCercle+1;
         }
-        else if (sumB == sumR)
-            System.out.println("Égalité : "+sumB+" partout !");
-        else {
-            System.out.println("Les rouges gagnent par "+sumR+" à "+sumB);
-            scoreRouges++;
-        }
-        if ( scoreRouges < scoreBleus){
-            System.out.println("Les bleus gagnent la partie par "
-                    +scoreBleus+" manche à "+scoreRouges);
-        }
-        else if (scoreRouges == scoreBleus)
-            System.out.println("Égalité : "+scoreRouges+" partout !");
-        else {
-            System.out.println("Les Rouges gagnent la partie par "
-                    +scoreRouges+" manche à "+scoreBleus);
-        }
+        /*
+        Toute la partie avec le decalage est la car il était plus simple de crée
+        un triangle rectangle plutot qu'une piramide un fois le triangle rectangle
+        créer il ne restait plus qu'a décaler les niveaux plutot que de donner les
+        bonne coordonées directement
+
+        Il y a une différenciation entre les lignes impaires et paire car les dernieres
+        ne pouvait pas etre centre comme les lignes impaires pour palier a ce probleme
+        il suffit de decaler les lignes paires d'une distance éguale au rayon du cercle
+        qui représente les cases
+         */
     }
+
+    /**
+     * Affiche le plateau de jeu en mode graphique
+     */
+    public static void afficheJeuStdDraw(){
+        double yLigne= 80;//initialisation de l'ordonnées des lignes de valeurs
+        double dCercle = 2 * RCERCLE;
+        int idCase=0;
+        double xCaseLignePaire;
+        double xCaseLigneImpaire;
+        int decalage=0;
+        for (int ligne = 1 ; ligne <= NLIGNES ; ligne++){   // Parcours des lignes
+            if ((ligne%2)==0)             // augmente le décalage toute les ligne paires
+                decalage++;
+            for (int emplacement = 0 ; emplacement < ligne ; emplacement++){
+                if (!state[idCase].isEmpty()){
+                    if ( (state[idCase].substring(0, 1)).equals(COULEURS[0]) ){
+                        StdDraw.setPenColor(StdDraw.BLUE);
+                    }
+                    else {
+                        StdDraw.setPenColor(StdDraw.RED);
+                    }
+                    xCaseLignePaire = RCERCLE+dCercle*emplacement;
+                    xCaseLigneImpaire = (0+dCercle*emplacement);
+                    if ( ( ligne % 2 ) != 0){
+                        StdDraw.filledCircle(xCaseLigneImpaire-(dCercle*decalage)
+                                , yLigne
+                                , RCERCLE);
+                        StdDraw.setPenColor(StdDraw.WHITE);
+                        StdDraw.text(xCaseLigneImpaire-(dCercle*decalage)
+                                , yLigne
+                                , state[idCase].substring(1));
+                    }
+                    else {
+                        StdDraw.filledCircle(xCaseLignePaire-(dCercle*decalage)
+                                , yLigne
+                                , RCERCLE);
+                        StdDraw.setPenColor(StdDraw.WHITE);
+                        StdDraw.text(xCaseLignePaire-(dCercle*decalage)
+                                , yLigne
+                                , state[idCase].substring(1));
+                    }
+                }
+                idCase++;
+            }
+            yLigne-= dCercle+1;
+        }
+
+    }
+
 }
+
+
