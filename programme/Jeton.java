@@ -34,7 +34,6 @@ public class Jeton {
         do {
             //----------inititalisation et création des variables-------------
             initJeu();
-            initJeuSTDDraw();
 
             Integer idCaseJouee;
             boolean verif;
@@ -42,14 +41,23 @@ public class Jeton {
 
             //------------------------Question debut de partie----------------
 
+            /* version terminal
             System.out.println("Jouer seul ? ");
             char reponse = input.next().charAt(0);
             boolean single = estOui(reponse);
+             */
+
+            // version StdDraw
+            boolean single = isSingle();
+
 
             if (single){
                 System.out.println("Entrer le niveau de l'IA (0, 1 ou 2) : ");
                 level = input.nextInt();
             }
+
+
+            initJeuSTDDraw();
             //------------------------Déroulement de la manche----------------
 
             afficheJeu();
@@ -480,6 +488,31 @@ public class Jeton {
         }
 
     }
+
+    /**
+     * fait apparatre une fennetre graphique qui demande a l'utilisateur de choisir entre 1 et 2
+     * @return true si le joueur veux jouer seul, et false si non.
+     */
+    public static boolean isSingle(){
+        StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
+        StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
+        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.filledRectangle(-100,-100,50, 100);
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.filledRectangle(0,0,50, 100);
+
+        StdDraw.text(0, 90, "Mode de jeux");
+
+
+
+        if (StdDraw.mousePressed() && StdDraw.mouseX() > 0){
+            return true;
+        }
+        else if (StdDraw.mousePressed() && StdDraw.mouseX() < 100){
+            return false;
+        }
+    }
+
 
 }
 
