@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f7bc2aa8-8fb7-4ef0-a05a-87bd4850ffd2" name="Changes" comment="optimisation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/programme/Jeton.class" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/programme/Jeton.java" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +96,8 @@
       <workItem from="1638514941582" duration="13599000" />
       <workItem from="1638860644335" duration="3690000" />
       <workItem from="1638890735480" duration="11309000" />
-      <workItem from="1638965408260" duration="11643000" />
+      <workItem from="1638965408260" duration="11669000" />
+      <workItem from="1639037777987" duration="190000" />
     </task>
     <task id="LOCAL-00001" summary="idFinLigne">
       <created>1638457463309</created>
@@ -139,17 +141,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>248</line>
+          <line>250</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>270</line>
+          <line>272</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>306</line>
+          <line>308</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

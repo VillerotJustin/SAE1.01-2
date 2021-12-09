@@ -41,14 +41,16 @@ public class Jeton {
 
             //------------------------Question debut de partie----------------
 
-            /* version terminal
+            // version terminal
             System.out.println("Jouer seul ? ");
             char reponse = input.next().charAt(0);
             boolean single = estOui(reponse);
-             */
 
-            // version StdDraw
+
+            /* version StdDraw
             boolean single = isSingle();
+
+             */
 
 
             if (single){
@@ -511,6 +513,7 @@ public class Jeton {
         else if (StdDraw.mousePressed() && StdDraw.mouseX() < 100){
             return false;
         }
+        return false;
     }
 
 
