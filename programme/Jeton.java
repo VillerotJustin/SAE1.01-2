@@ -73,33 +73,15 @@ public class Jeton {
             for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) {
                 System.out.println();
                 System.out.println(text);
-                do {
-                    idCaseJouee = Integer.parseInt(input.next());
-                    verif = jouer(COULEURS[0], val, idCaseJouee);
-                }
-                while (!verif);
+                tourJoueur(val, text, 1);
                 //fin tour joueur 1
                 afficheJeu();
                 afficheJeuStdDraw();
 
                 if (single) {
-                    do {//---------------------Un joueur----------------------
-                        switch (level) {
-                            case 1: idCaseJouee = iaRouge1(); break;
-                            case 2: idCaseJouee = iaRouge2(); break;
-                            default: idCaseJouee = iaRouge(); break;
-                        }
-                        verif = jouer(COULEURS[1], val, idCaseJouee);
-                    }
-                    while (!verif);
-                    //fin tour iA / Joueur 2
+                    touria(level, val);
                 } else {
-                    System.out.println(text + " (joueur 2)");
-                    do {//---------------------Deux joueur--------------------
-                        idCaseJouee = Integer.parseInt(input.next());
-                        verif = jouer(COULEURS[1], val, idCaseJouee);
-                    }
-                    while (!verif);
+                    tourJoueur(val, text, 2);
                 }
                 afficheJeu();
                 afficheJeuStdDraw();
@@ -193,6 +175,35 @@ public class Jeton {
             state[pos] = temp;
             return true;
         }
+    }
+
+
+
+    public static void touria(int level, int val) {
+        int idCaseJouee;
+        boolean verif;
+        do {//---------------------Un joueur----------------------
+            switch (level) {
+                case 1: idCaseJouee = iaRouge1(); break;
+                case 2: idCaseJouee = iaRouge2(); break;
+                default: idCaseJouee = iaRouge(); break;
+            }
+            verif = jouer(COULEURS[1], val, idCaseJouee);
+        }
+        while (!verif);
+        //fin tour iA / Joueur 2
+    }
+
+    public static void tourJoueur(int val, String text, int joueur) {
+        int idCaseJouee;
+        boolean verif;
+        System.out.println(text + " (joueur" + joueur + ")");
+        do {//---------------------Deux joueur--------------------
+            idCaseJouee = Integer.parseInt(input.next());
+            verif = jouer(COULEURS[1], val, idCaseJouee);
+        }
+        while (!verif);
+
     }
 
     /**
