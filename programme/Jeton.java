@@ -1,3 +1,4 @@
+import javax.xml.transform.stream.StreamSource;
 import java.security.PublicKey;
 import java.util.*;
 
@@ -281,6 +282,50 @@ public class Jeton {
         } // centre
         return sommeVoisins;
     }
+    public static int sommeVoisinsVides(String col, int idVide){
+        int sommeVoisins = 0;
+        int idligne = numligne(idVide);
+        if (idVide == 0){
+            sommeVoisins += verifCouleur(col, state[1]);
+            sommeVoisins += verifCouleur(col, state[2]);
+        } //haut
+        else if (idVide == 15){
+            sommeVoisins += verifCouleur(col, state[10]);
+            sommeVoisins += verifCouleur(col, state[16]);
+        } // bas droite
+        else if (idVide == 20){
+            sommeVoisins += verifCouleur(col, state[14]);
+            sommeVoisins += verifCouleur(col, state[19]);
+        } // bas gauche
+        else if (idVide == idFinLigne(idligne)){
+            sommeVoisins += verifCouleur(col, state[idVide-1]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne+1]);
+        }//case a droite
+        else if (idVide == 1 || idVide == 3|| idVide ==6 || idVide == 10){
+            sommeVoisins += verifCouleur(col, state[idVide+1]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne+1]);
+        }//case a gauche
+        else if (idVide > 15 && idVide < 20){
+            sommeVoisins += verifCouleur(col, state[idVide+1]);
+            sommeVoisins += verifCouleur(col, state[idVide-1]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+        }//case bas
+        else{
+            sommeVoisins += verifCouleur(col, state[idVide+1]);
+            sommeVoisins += verifCouleur(col, state[idVide-1]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
+            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+
+        } // centre
+        return sommeVoisins;
+    }
 
 
     /**
@@ -376,16 +421,23 @@ public class Jeton {
     public static int iaRouge2(){
         List<Integer> emptycase = new ArrayList<>();
         List<Integer> sommes = new ArrayList<>();
+        int max = 0;
+        int idMax = 0;
         for (int i = 0; i < NCASES; i++){
             if(state[i].isEmpty())
                 emptycase.add(i);
         }
-        for(int somme = 0; somme < emptycase.length; somme++ ){
-            sommes.add(sommeVoisins());
+        for(int somme = 0; somme < emptycase.size(); somme++ ){
+            sommes.add(sommeVoisinsVides(COULEURS[1], emptycase.get(somme)));
         }
-        for (int case = 0; case < sommes.length; case++){
-            
+        for(int casesVides = 0; casesVides < sommes.size(); casesVides++){
+            if(sommes.get(casesVides) > max){
+                max = sommes.get(casesVides);
+                idMax = casesVides;
+            }
         }
+        return idMax;
+
     }
 
     /*
