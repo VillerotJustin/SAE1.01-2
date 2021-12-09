@@ -53,10 +53,15 @@ public class Jeton {
             // version StdDraw
             boolean single = isSingle();
 
-            System.out.println(single);
+
+            /* Version terminal
             if (single){
                 System.out.println("Entrer le niveau de l'IA (0, 1 ou 2) : ");
                 level = input.nextInt();
+            }
+             */
+            if (single){
+                level = iaLevel();
             }
 
 
@@ -69,33 +74,15 @@ public class Jeton {
             for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) {
                 System.out.println();
                 System.out.println(text);
-                do {
-                    idCaseJouee = Integer.parseInt(input.next());
-                    verif = jouer(COULEURS[0], val, idCaseJouee);
-                }
-                while (!verif);
+                tourJoueur(val, text, 1);
                 //fin tour joueur 1
                 afficheJeu();
                 afficheJeuStdDraw();
 
                 if (single) {
-                    do {//---------------------Un joueur----------------------
-                        switch (level) {
-                            case 1: idCaseJouee = iaRouge1(); break;
-                            case 2: idCaseJouee = iaRouge2(); break;
-                            default: idCaseJouee = iaRouge(); break;
-                        }
-                        verif = jouer(COULEURS[1], val, idCaseJouee);
-                    }
-                    while (!verif);
-                    //fin tour iA / Joueur 2
+                    touria(level, val);
                 } else {
-                    System.out.println(text + " (joueur 2)");
-                    do {//---------------------Deux joueur--------------------
-                        idCaseJouee = Integer.parseInt(input.next());
-                        verif = jouer(COULEURS[1], val, idCaseJouee);
-                    }
-                    while (!verif);
+                    tourJoueur(val, text, 2);
                 }
                 afficheJeu();
                 afficheJeuStdDraw();
@@ -189,6 +176,35 @@ public class Jeton {
             state[pos] = temp;
             return true;
         }
+    }
+
+
+
+    public static void touria(int level, int val) {
+        int idCaseJouee;
+        boolean verif;
+        do {//---------------------Un joueur----------------------
+            switch (level) {
+                case 1: idCaseJouee = iaRouge1(); break;
+                case 2: idCaseJouee = iaRouge2(); break;
+                default: idCaseJouee = iaRouge(); break;
+            }
+            verif = jouer(COULEURS[1], val, idCaseJouee);
+        }
+        while (!verif);
+        //fin tour iA / Joueur 2
+    }
+
+    public static void tourJoueur(int val, String text, int joueur) {
+        int idCaseJouee;
+        boolean verif;
+        System.out.println(text + " (joueur" + joueur + ")");
+        do {//---------------------Deux joueur--------------------
+            idCaseJouee = Integer.parseInt(input.next());
+            verif = jouer(COULEURS[1], val, idCaseJouee);
+        }
+        while (!verif);
+
     }
 
     /**
@@ -562,6 +578,7 @@ public class Jeton {
     public static boolean isSingle(){
         StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
         StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
+        StdDraw.clear(StdDraw.WHITE); //fond d'écrans en blanc
         StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.filledRectangle(-50, -10, 50, 90);
         StdDraw.setPenColor(StdDraw.RED);
@@ -585,6 +602,44 @@ public class Jeton {
             }
         }
         while (true);
+    }
+
+    public static int iaLevel(){
+        StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
+        StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
+        StdDraw.clear(StdDraw.WHITE); //fond d'écrans en blanc
+        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.filledRectangle(0, 50, 100, 30);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(0, 50, "Facile");
+        StdDraw.setPenColor(StdDraw.PRINCETON_ORANGE);
+        StdDraw.filledRectangle(0, -10, 100, 30);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(0, -10, "Normale");
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.filledRectangle(0, -70, 100, 30);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(0, -70, "Difficile");
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.text(0, 90, "Difficulter IA");
+        StdDraw.setPenRadius(0.01);
+        StdDraw.line(-100, 80, 100, 80);
+        StdDraw.line(-100, 20, 100, 20);
+        StdDraw.line(-100, -40, 100, -40);
+        StdDraw.pause(1000);
+        do {
+            if (StdDraw.isMousePressed() && StdDraw.mouseY() < 80 && StdDraw.mouseY() > 20){
+                return 0;
+            }
+            else if (StdDraw.isMousePressed() && StdDraw.mouseY() < 20 && StdDraw.mouseY() > -40){
+                return 1;
+            }
+            else if (StdDraw.isMousePressed() && StdDraw.mouseY() < -40){
+                return 2;
+            }
+        }
+        while (true);
+
     }
 
 
