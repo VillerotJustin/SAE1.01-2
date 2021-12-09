@@ -374,7 +374,18 @@ public class Jeton {
      * @return id de la case
      */
     public static int iaRouge2(){
-        return rand.nextInt(20);
+        List<Integer> emptycase = new ArrayList<>();
+        List<Integer> sommes = new ArrayList<>();
+        for (int i = 0; i < NCASES; i++){
+            if(state[i].isEmpty())
+                emptycase.add(i);
+        }
+        for(int somme = 0; somme < emptycase.length; somme++ ){
+            sommes.add(sommeVoisins());
+        }
+        for (int case = 0; case < sommes.length; case++){
+            
+        }
     }
 
     /*
