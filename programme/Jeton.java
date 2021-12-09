@@ -53,13 +53,12 @@ public class Jeton {
             // version StdDraw
             boolean single = isSingle();
 
-
             /* Version terminal
             if (single){
                 System.out.println("Entrer le niveau de l'IA (0, 1 ou 2) : ");
                 level = input.nextInt();
             }
-             */
+             *///version stdDraw
             if (single){
                 level = iaLevel();
             }
@@ -73,8 +72,7 @@ public class Jeton {
 
             for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) {
                 System.out.println();
-                System.out.println(text);
-                tourJoueur(val, text, 1);
+                tourJoueur(val, text, 0);
                 //fin tour joueur 1
                 afficheJeu();
                 afficheJeuStdDraw();
@@ -82,7 +80,7 @@ public class Jeton {
                 if (single) {
                     touria(level, val);
                 } else {
-                    tourJoueur(val, text, 2);
+                    tourJoueur(val, text, 1);
                 }
                 afficheJeu();
                 afficheJeuStdDraw();
@@ -201,7 +199,7 @@ public class Jeton {
         System.out.println(text + " (joueur" + joueur + ")");
         do {//---------------------Deux joueur--------------------
             idCaseJouee = Integer.parseInt(input.next());
-            verif = jouer(COULEURS[1], val, idCaseJouee);
+            verif = jouer(COULEURS[joueur], val, idCaseJouee);
         }
         while (!verif);
 
@@ -298,6 +296,14 @@ public class Jeton {
         } // centre
         return sommeVoisins;
     }
+
+
+    /**
+     * calcule la somme des poids des voisins de couleur col pour une case donné
+     * @param col couleur
+     * @param idVide case a chercher
+     * @return somme des poids
+     */
     public static int sommeVoisinsVides(String col, int idVide){
         int sommeVoisins = 0;
         int idligne = numligne(idVide);
@@ -443,6 +449,8 @@ public class Jeton {
             if(state[i].isEmpty())
                 emptycase.add(i);
         }
+        
+
         for(int somme = 0; somme < emptycase.size(); somme++ ){
             sommes.add(sommeVoisinsVides(COULEURS[1], emptycase.get(somme)));
         }
