@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7bc2aa8-8fb7-4ef0-a05a-87bd4850ffd2" name="Changes" comment="optimisation">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/0/2094a336750805aac454771ead5e9ea0563724ca" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/e/2e5e7579b9f2b9f73650f9ed721cd4627d845d53" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/programme/Jeton.class" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/programme/Jeton.java" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.java" afterDir="false" />
@@ -98,6 +101,7 @@
       <workItem from="1638890735480" duration="11309000" />
       <workItem from="1638965408260" duration="11669000" />
       <workItem from="1639037777987" duration="190000" />
+      <workItem from="1639039732413" duration="3922000" />
     </task>
     <task id="LOCAL-00001" summary="idFinLigne">
       <created>1638457463309</created>

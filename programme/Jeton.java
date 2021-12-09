@@ -38,21 +38,21 @@ public class Jeton {
             Integer idCaseJouee;
             boolean verif;
             int level = 0;
+            char reponse;
 
             //------------------------Question debut de partie----------------
 
-            // version terminal
+            /* version terminal
             System.out.println("Jouer seul ? ");
-            char reponse = input.next().charAt(0);
+            reponse = input.next().charAt(0);
             boolean single = estOui(reponse);
+            isSingle();
+            */
 
-
-            /* version StdDraw
+            // version StdDraw
             boolean single = isSingle();
 
-             */
-
-
+            System.out.println(single);
             if (single){
                 System.out.println("Entrer le niveau de l'IA (0, 1 ou 2) : ");
                 level = input.nextInt();
@@ -395,6 +395,7 @@ public class Jeton {
         StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
         StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
         StdDraw.clear(StdDraw.WHITE); //fond d'écrans en blanc
+        StdDraw.setPenColor(StdDraw.BLACK);
         double yLigne= 80;//initialisation de l'ordonnées des lignes de valeurs
         double dCercle = 2 * RCERCLE;
         int idCase=0;
@@ -499,22 +500,31 @@ public class Jeton {
         StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
         StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
         StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.filledRectangle(-100,-100,50, 100);
+        StdDraw.filledRectangle(-50, -10, 50, 90);
         StdDraw.setPenColor(StdDraw.RED);
-        StdDraw.filledRectangle(0,0,50, 100);
-
+        StdDraw.filledRectangle(50, -10, 50, 90);
+        StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.text(0, 90, "Mode de jeux");
+        StdDraw.setPenRadius(0.01);
+        StdDraw.line(0, 80, 0, -100);
+        StdDraw.line(-100, 80, 100, 80);
+        StdDraw.setPenColor(StdDraw.WHITE);
+        StdDraw.text(-50, -10, "Deux joueur");
+        StdDraw.text(50, -10, "Jouer contre l'IA");
 
 
-
-        if (StdDraw.mousePressed() && StdDraw.mouseX() > 0){
-            return true;
+        do {
+            if (StdDraw.mousePressed() && StdDraw.mouseX() > 0){
+                return true;
+            }
+            else if (StdDraw.mousePressed() && StdDraw.mouseX() < 100){
+                return false;
+            }
         }
-        else if (StdDraw.mousePressed() && StdDraw.mouseX() < 100){
-            return false;
-        }
-        return false;
+        while (true);
     }
+
+
 
 
 }
