@@ -189,7 +189,7 @@ public class Jeton {
                 case 2: idCaseJouee = iaRouge2(); break;
                 default: idCaseJouee = iaRouge(); break;
             }
-            verif = jouer(COULEURS[1], val, idCaseJouee);
+            verif = jouer(COULEURS[0], val, idCaseJouee);
         }
         while (!verif);
         //fin tour iA / Joueur 2
@@ -436,19 +436,15 @@ public class Jeton {
      */
     public static int iaRouge2(){
         List<Integer> emptycase = new ArrayList<>();
-        List<Integer> sommes = new ArrayList<>();
         int max = 0;
         int idMax = 0;
         for (int i = 0; i < NCASES; i++){
             if(state[i].isEmpty())
                 emptycase.add(i);
         }
-        for(int somme = 0; somme < emptycase.size(); somme++ ){
-            sommes.add(sommeVoisinsVides(COULEURS[1], emptycase.get(somme)));
-        }
-        for(int casesVides = 0; casesVides < sommes.size(); casesVides++){
-            if(sommes.get(casesVides) > max){
-                max = sommes.get(casesVides);
+        for(int casesVides = 0; casesVides < emptycase.size(); casesVides++){
+            if(sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides)) > max){
+                max = sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides));
                 idMax = casesVides;
             }
         }
