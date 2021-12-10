@@ -1,5 +1,3 @@
-import javax.xml.transform.stream.StreamSource;
-import java.security.PublicKey;
 import java.util.*;
 
 /**
@@ -35,9 +33,6 @@ public class Jeton {
         do {
             //----------inititalisation et création des variables-------------
             initJeu();
-
-            Integer idCaseJouee;
-            boolean verif;
             int level = 0;
             char reponse;
 
@@ -454,7 +449,7 @@ public class Jeton {
         int idMax = emptycase.get(0);
         System.out.println(emptycase);
         for(int casesVides = 0; casesVides < emptycase.size(); casesVides++){
-            if(sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides)) > sommeVoisinsVides(COULEURS[0], emptycase.get(casesVides))){
+            if(sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides)) > sommeVoisinsVides(COULEURS[0], emptycase.get(casesVides)) && sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides)) > max){
                 max = sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides));
                 idMax = emptycase.get(casesVides);
             }
@@ -536,44 +531,51 @@ public class Jeton {
         double yLigne= 80;//initialisation de l'ordonnées des lignes de valeurs
         double dCercle = 2 * RCERCLE;
         int idCase=0;
-        double xCaseLignePaire;
-        double xCaseLigneImpaire;
         int decalage=0;
         for (int ligne = 1 ; ligne <= NLIGNES ; ligne++){   // Parcours des lignes
             if ((ligne%2)==0)             // augmente le décalage toute les ligne paires
                 decalage++;
             for (int emplacement = 0 ; emplacement < ligne ; emplacement++){
                 if (!state[idCase].isEmpty()){
-                    if ( (state[idCase].substring(0, 1)).equals(COULEURS[0]) ){
-                        StdDraw.setPenColor(StdDraw.BLUE);
-                    }
-                    else {
-                        StdDraw.setPenColor(StdDraw.RED);
-                    }
-                    xCaseLignePaire = RCERCLE+dCercle*emplacement;
-                    xCaseLigneImpaire = (0+dCercle*emplacement);
-                    if ( ( ligne % 2 ) != 0){
-                        StdDraw.filledCircle(xCaseLigneImpaire-(dCercle*decalage)
-                                , yLigne
-                                , RCERCLE);
-                        StdDraw.setPenColor(StdDraw.WHITE);
-                        StdDraw.text(xCaseLigneImpaire-(dCercle*decalage)
-                                , yLigne
-                                , state[idCase].substring(1));
-                    }
-                    else {
-                        StdDraw.filledCircle(xCaseLignePaire-(dCercle*decalage)
-                                , yLigne
-                                , RCERCLE);
-                        StdDraw.setPenColor(StdDraw.WHITE);
-                        StdDraw.text(xCaseLignePaire-(dCercle*decalage)
-                                , yLigne
-                                , state[idCase].substring(1));
-                    }
+                    afficheJeuStdDraw2(idCase, emplacement, ligne, decalage, yLigne);
                 }
                 idCase++;
             }
             yLigne-= dCercle+1;
+        }
+
+    }
+
+
+    private static void afficheJeuStdDraw2(int idCase, int emplacement, int ligne, int decalage, double yLigne){
+        double dCercle = 2 * RCERCLE;
+        double xCaseLignePaire;
+        double xCaseLigneImpaire;
+        if ( (state[idCase].substring(0, 1)).equals(COULEURS[0]) ){
+            StdDraw.setPenColor(StdDraw.BLUE);
+        }
+        else {
+            StdDraw.setPenColor(StdDraw.RED);
+        }
+        xCaseLignePaire = RCERCLE+dCercle*emplacement;
+        xCaseLigneImpaire = (0+dCercle*emplacement);
+        if ( ( ligne % 2 ) != 0){
+            StdDraw.filledCircle(xCaseLigneImpaire-(dCercle*decalage)
+                    , yLigne
+                    , RCERCLE);
+            StdDraw.setPenColor(StdDraw.WHITE);
+            StdDraw.text(xCaseLigneImpaire-(dCercle*decalage)
+                    , yLigne
+                    , state[idCase].substring(1));
+        }
+        else {
+            StdDraw.filledCircle(xCaseLignePaire-(dCercle*decalage)
+                    , yLigne
+                    , RCERCLE);
+            StdDraw.setPenColor(StdDraw.WHITE);
+            StdDraw.text(xCaseLignePaire-(dCercle*decalage)
+                    , yLigne
+                    , state[idCase].substring(1));
         }
 
     }
@@ -611,6 +613,11 @@ public class Jeton {
         while (true);
     }
 
+
+    /**
+     * demande le niveau de l'ia au joueur
+     * @return le niveau de l'ia
+     */
     public static int iaLevel(){
         StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
         StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
@@ -636,7 +643,7 @@ public class Jeton {
         do {
             StdDraw.pause(1);
         }
-        while (StdDraw.mousePressed());
+        while (StdDraw.mousePressed() || StdDraw.isMousePressed());
         do {
             if (StdDraw.isMousePressed() && StdDraw.mouseY() < 80 && StdDraw.mouseY() > 20){
                 return 0;
