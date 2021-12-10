@@ -73,8 +73,7 @@ public class Jeton {
 
             for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) {
                 System.out.println();
-                System.out.println(text);
-                tourJoueur(val, text, 1);
+                tourJoueur(val, text, 0);
                 //fin tour joueur 1
                 afficheJeu();
                 afficheJeuStdDraw();
@@ -82,7 +81,7 @@ public class Jeton {
                 if (single) {
                     touria(level, val);
                 } else {
-                    tourJoueur(val, text, 2);
+                    tourJoueur(val, text, 1);
                 }
                 afficheJeu();
                 afficheJeuStdDraw();
@@ -189,7 +188,7 @@ public class Jeton {
                 case 2: idCaseJouee = iaRouge2(); break;
                 default: idCaseJouee = iaRouge(); break;
             }
-            verif = jouer(COULEURS[0], val, idCaseJouee);
+            verif = jouer(COULEURS[1], val, idCaseJouee);
         }
         while (!verif);
         //fin tour iA / Joueur 2
@@ -201,7 +200,7 @@ public class Jeton {
         System.out.println(text + " (joueur" + joueur + ")");
         do {//---------------------Deux joueur--------------------
             idCaseJouee = Integer.parseInt(input.next());
-            verif = jouer(COULEURS[1], val, idCaseJouee);
+            verif = jouer(COULEURS[joueur], val, idCaseJouee);
         }
         while (!verif);
 
@@ -298,6 +297,14 @@ public class Jeton {
         } // centre
         return sommeVoisins;
     }
+
+
+    /**
+     * fait la somme du poid autour d'une case donnée
+     * @param col couleur a verifier
+     * @param idVide case donnée
+     * @return rend la somme des poids
+     */
     public static int sommeVoisinsVides(String col, int idVide){
         int sommeVoisins = 0;
         int idligne = numligne(idVide);
@@ -368,7 +375,10 @@ public class Jeton {
      */
     public static int verifCouleur(String col, String stateToCheck){
         int valeur = 0;
-        if ( (stateToCheck.substring(0, 1)).equals(col) ){
+        if ( stateToCheck.isEmpty() ){
+            return valeur;
+        }
+        else if ( (stateToCheck.substring(0, 1)).equals(col) ){
             valeur += Integer.parseInt(stateToCheck.substring(1));
         }
         return valeur;
@@ -437,15 +447,16 @@ public class Jeton {
     public static int iaRouge2(){
         List<Integer> emptycase = new ArrayList<>();
         int max = 0;
-        int idMax = 0;
         for (int i = 0; i < NCASES; i++){
             if(state[i].isEmpty())
                 emptycase.add(i);
         }
+        int idMax = emptycase.get(0);
+        System.out.println(emptycase);
         for(int casesVides = 0; casesVides < emptycase.size(); casesVides++){
-            if(sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides)) > max){
+            if(sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides)) > sommeVoisinsVides(COULEURS[0], emptycase.get(casesVides))){
                 max = sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides));
-                idMax = casesVides;
+                idMax = emptycase.get(casesVides);
             }
         }
         return idMax;
@@ -622,7 +633,10 @@ public class Jeton {
         StdDraw.line(-100, 80, 100, 80);
         StdDraw.line(-100, 20, 100, 20);
         StdDraw.line(-100, -40, 100, -40);
-        StdDraw.pause(1000);
+        do {
+            StdDraw.pause(1);
+        }
+        while (StdDraw.mousePressed());
         do {
             if (StdDraw.isMousePressed() && StdDraw.mouseY() < 80 && StdDraw.mouseY() > 20){
                 return 0;
