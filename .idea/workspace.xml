@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f7bc2aa8-8fb7-4ef0-a05a-87bd4850ffd2" name="Changes" comment="isSingle graphique">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAE1.01-2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SAE1.01-2.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/programme/Jeton.class" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/programme/Jeton.java" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.java" afterDir="false" />
     </list>
@@ -45,6 +46,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
@@ -101,7 +106,9 @@
       <workItem from="1639039732413" duration="5438000" />
       <workItem from="1639121362112" duration="2769000" />
       <workItem from="1639127900503" duration="1418000" />
-      <workItem from="1639149761154" duration="978000" />
+      <workItem from="1639149761154" duration="1117000" />
+      <workItem from="1639150894631" duration="19000" />
+      <workItem from="1639305495685" duration="7332000" />
     </task>
     <task id="LOCAL-00001" summary="idFinLigne">
       <created>1638457463309</created>
@@ -153,18 +160,22 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>261</line>
+          <line>278</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>283</line>
+          <line>300</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>371</line>
-          <option name="timeStamp" value="4" />
+          <line>554</line>
+          <properties class="Jeton" method="afficheJeuStdDraw">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

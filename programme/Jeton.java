@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 /**
@@ -18,6 +19,8 @@ public class Jeton {
     private static int scoreBleus = 0; //variables scores
     private static int scoreRouges = 0;
     public static final double RCERCLE = 15;
+    private static double[][] coordonee = new double[NCASES][2];
+    public static final String PARTOUT = " partout !";
 
     static boolean estOui(char reponse) {
         return "yYoO".indexOf(reponse) != -1;
@@ -86,11 +89,14 @@ public class Jeton {
             int sumB = sommeVoisins(COULEURS[0]);
             int sumR = sommeVoisins(COULEURS[1]);
 
-            score(sumB, sumR);
-
+            /* version terminal -> score(sumB, sumR);
             System.out.println("Nouvelle Manche ? ");
             reponse = input.next().charAt(0);
             newDeal = estOui(reponse);
+             */
+
+            newDeal = scoreStdDraw(sumB, sumR);
+
         } while (newDeal);
         System.out.println("Bye Bye !");
         System.exit(0);
@@ -173,7 +179,11 @@ public class Jeton {
     }
 
 
-
+    /**
+     * joue la tour de l'ia
+     * @param level niveau de l'ia
+     * @param val valeur du jeton
+     */
     public static void touria(int level, int val) {
         int idCaseJouee;
         boolean verif;
@@ -189,12 +199,19 @@ public class Jeton {
         //fin tour iA / Joueur 2
     }
 
+
+    /**
+     * execute le tour du joueur
+     * @param val valeur du jeton
+     * @param text texte a afficher dans le terminal
+     * @param joueur joueur qui joue 0 -> joueur 1 et 1 -> joueur 2
+     */
     public static void tourJoueur(int val, String text, int joueur) {
         int idCaseJouee;
         boolean verif;
         System.out.println(text + " (joueur" + joueur + ")");
         do {//---------------------Deux joueur--------------------
-            idCaseJouee = Integer.parseInt(input.next());
+            idCaseJouee = actionJoueur();
             verif = jouer(COULEURS[joueur], val, idCaseJouee);
         }
         while (!verif);
@@ -390,7 +407,7 @@ public class Jeton {
             scoreBleus++;
         }
         else if (sumB == sumR)
-            System.out.println("Égalité : "+sumB+" partout !");
+            System.out.println("Égalité : "+sumB+ PARTOUT);
         else {
             System.out.println("Les rouges gagnent par "+sumR+" à "+sumB);
             scoreRouges++;
@@ -400,7 +417,7 @@ public class Jeton {
                     +scoreBleus+" manche à "+scoreRouges);
         }
         else if (scoreRouges == scoreBleus)
-            System.out.println("Égalité : "+scoreRouges+" partout !");
+            System.out.println("Égalité : "+scoreRouges+ PARTOUT);
         else {
             System.out.println("Les Rouges gagnent la partie par "
                     +scoreRouges+" manche à "+scoreBleus);
@@ -436,7 +453,7 @@ public class Jeton {
     }
 
     /**
-     *
+     * rend l'id de la case vide avec la plus grande somme rouge superieur a la somme bleu
      * @return id de la case
      */
     public static int iaRouge2(){
@@ -449,8 +466,12 @@ public class Jeton {
         int idMax = emptycase.get(0);
         System.out.println(emptycase);
         for(int casesVides = 0; casesVides < emptycase.size(); casesVides++){
-            if(sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides)) > sommeVoisinsVides(COULEURS[0], emptycase.get(casesVides)) && sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides)) > max){
-                max = sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides));
+            if(sommeVoisinsVides(COULEURS[1]
+                    , emptycase.get(casesVides))>sommeVoisinsVides(COULEURS[0]
+                    , emptycase.get(casesVides))
+                    && sommeVoisinsVides(COULEURS[1]
+                    , emptycase.get(casesVides)) > max){
+                max=sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides));
                 idMax = emptycase.get(casesVides);
             }
         }
@@ -498,6 +519,8 @@ public class Jeton {
                     StdDraw.text(xCaseLigneImpaire-(dCercle*decalage)
                             , yLigne
                             , idCaseString);
+                    coordonee[idCase][0]= xCaseLigneImpaire-(dCercle*decalage);
+                    coordonee[idCase][1]= yLigne;
                 }
                 else {
                     StdDraw.circle(xCaseLignePaire-(dCercle*decalage)
@@ -506,6 +529,8 @@ public class Jeton {
                     StdDraw.text(xCaseLignePaire-(dCercle*decalage)
                             , yLigne
                             , idCaseString);
+                    coordonee[idCase][0]= xCaseLigneImpaire-(dCercle*decalage);
+                    coordonee[idCase][1]= yLigne;
                 }
                 idCase++;
             }
@@ -537,7 +562,11 @@ public class Jeton {
                 decalage++;
             for (int emplacement = 0 ; emplacement < ligne ; emplacement++){
                 if (!state[idCase].isEmpty()){
-                    afficheJeuStdDraw2(idCase, emplacement, ligne, decalage, yLigne);
+                    afficheJeuStdDraw2(idCase
+                            , emplacement
+                            , ligne
+                            , decalage
+                            , yLigne);
                 }
                 idCase++;
             }
@@ -546,8 +575,19 @@ public class Jeton {
 
     }
 
-
-    private static void afficheJeuStdDraw2(int idCase, int emplacement, int ligne, int decalage, double yLigne){
+    /**
+     * Sous méthode de la méthode afficheJeuStdDraw
+     * @param idCase id de la case a afficher
+     * @param emplacement place dans la ligne
+     * @param ligne ligne de la case
+     * @param decalage décalage nécessaire pour cette ligne
+     * @param yLigne ordonnée de la lignes
+     */
+    private static void afficheJeuStdDraw2(int idCase
+            , int emplacement
+            , int ligne
+            , int decalage
+            , double yLigne){
         double dCercle = 2 * RCERCLE;
         double xCaseLignePaire;
         double xCaseLigneImpaire;
@@ -603,10 +643,14 @@ public class Jeton {
 
 
         do {
-            if (StdDraw.mousePressed() && StdDraw.mouseX() > 0){
+            if (StdDraw.mousePressed() && StdDraw.mouseX() >= 0){
+                System.out.println(true);
+                StdDraw.pause(500);
                 return true;
             }
-            else if (StdDraw.mousePressed() && StdDraw.mouseX() < 100){
+            else if (StdDraw.mousePressed() && StdDraw.mouseX() < 0){
+                System.out.println(false);
+                StdDraw.pause(500);
                 return false;
             }
         }
@@ -641,17 +685,21 @@ public class Jeton {
         StdDraw.line(-100, 20, 100, 20);
         StdDraw.line(-100, -40, 100, -40);
         do {
-            StdDraw.pause(1);
-        }
-        while (StdDraw.mousePressed() || StdDraw.isMousePressed());
-        do {
-            if (StdDraw.isMousePressed() && StdDraw.mouseY() < 80 && StdDraw.mouseY() > 20){
+            if (StdDraw.mousePressed()
+                    && StdDraw.mouseY() < 80
+                    && StdDraw.mouseY() > 20){
+                System.out.println(0);
                 return 0;
             }
-            else if (StdDraw.isMousePressed() && StdDraw.mouseY() < 20 && StdDraw.mouseY() > -40){
+            else if (StdDraw.mousePressed()
+                    && StdDraw.mouseY() < 20
+                    && StdDraw.mouseY() > -40){
+                System.out.println(1);
                 return 1;
             }
-            else if (StdDraw.isMousePressed() && StdDraw.mouseY() < -40){
+            else if (StdDraw.mousePressed()
+                    && StdDraw.mouseY() < -40){
+                System.out.println(2);
                 return 2;
             }
         }
@@ -659,7 +707,121 @@ public class Jeton {
 
     }
 
+    /**
+     * Demande au joueur la case qu'il veux jouer
+     * @return l'id de la case que le joueur veux jouer
+     */
+    private static int actionJoueur(){
+        StdDraw.pause(500);
+        do {
+            for (int i = 0; i < NCASES; i++){
+                if (StdDraw.mousePressed()
+                        && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
+                        && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
+                        && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE)
+                        && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE)){
+                    System.out.println(coordonee[i][1]+RCERCLE);
+                    System.out.println(coordonee[i][1]-RCERCLE);
+                    System.out.println(coordonee[i][0]+RCERCLE);
+                    System.out.println(coordonee[i][0]-RCERCLE);
+                    System.out.println(i);
+                    return i;
+                }
+            }
+        }while (true);
+    }
 
+
+    /**
+     * affiche le score du joueur et demande si il veux faire une autre manche
+     * @param sumB somme bleu
+     * @param sumR somme rouge
+     */
+    private static Boolean scoreStdDraw(int sumB, int sumR){
+        StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
+        StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
+        StdDraw.clear(StdDraw.WHITE); //fond d'écrans en blanc
+        String contre =" contre ";
+
+        //resultat de la manche
+        if (sumB < sumR){
+            StdDraw.setPenColor(StdDraw.BLUE);
+            StdDraw.filledRectangle(0, 42.5, 100, 37.5);
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.text(0, 42.5, "Les bleu on gagnés la manche avec "
+            + sumB + contre + sumR);
+            scoreBleus++;
+        }
+        else if (sumR < sumB){
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.filledRectangle(0, 42.5, 100, 37.5);
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.text(0, 42.5, "Les Rouges on gagnés la manche avec "
+                    + sumR + contre + sumB);
+            scoreRouges++;
+        }
+        else {
+            StdDraw.setPenColor(StdDraw.PINK);
+            StdDraw.filledRectangle(0, 42.5, 100, 37.5);
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.text(0, 42.5, "Égalité " + sumB + PARTOUT);
+        }
+
+        // score de la partie
+        if (scoreBleus > scoreRouges){
+            StdDraw.setPenColor(StdDraw.BLUE);
+            StdDraw.filledRectangle(0, -32.5, 100, 37.5);
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.text(0, -32.5, "Les bleu gagne la partie avec "
+                    + scoreBleus + contre + scoreRouges);
+        }
+        else if (scoreRouges > scoreBleus){
+            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.filledRectangle(0, -32.5, 100, 37.5);
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.text(0, -32.5, "Les Rouges gagne la partie avec "
+                    + scoreRouges + contre + scoreBleus);
+        }
+        else {
+            StdDraw.setPenColor(StdDraw.PINK);
+            StdDraw.filledRectangle(0, -32.5, 100, 37.5);
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.text(0, -32.5, "Egalité avec " + scoreRouges + PARTOUT);
+        }
+
+        StdDraw.setPenColor(StdDraw.RED);
+        StdDraw.filledRectangle(-50, -85, 50, 15);
+        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.filledRectangle(50, -85, 50, 15);
+        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenRadius(0.01);
+        StdDraw.line(-100, 80, 100, 80);
+        StdDraw.line(-100, 5, 100, 5);
+        StdDraw.line(-100, -70, 100, -70);
+        StdDraw.line(0, -70, 0, -100);
+        StdDraw.text(0, 90, "Tableau des scores");
+        StdDraw.text(50, -85, "Continuer la partie ");
+        StdDraw.text(-50, -85, " Arreter la partie ");
+
+        do {
+            if (StdDraw.mousePressed()
+                    && StdDraw.mouseX() >= 0
+                    && StdDraw.mouseY() <= -70){
+                System.out.println(true);
+                StdDraw.pause(500);
+                return true;
+            }
+            else if (StdDraw.mousePressed()
+                    && StdDraw.mouseX() < 0
+                    && StdDraw.mouseY() <= -70){
+                System.out.println(false);
+                StdDraw.pause(500);
+                return false;
+            }
+        }
+        while (true);
+
+    }
 
 
 }
