@@ -715,18 +715,28 @@ public class Jeton {
         StdDraw.pause(500);
         do {
             for (int i = 0; i < NCASES; i++){
-                if (StdDraw.mousePressed()
+                if ((numligne(i)%2)==0){
+                    if (StdDraw.mousePressed()
+                            && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
+                            && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
+                            && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE*2)
+                            && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE*2)){
+                        System.out.println(i);
+                        return i;
+                    }
+                }
+                else {
+                    if (StdDraw.mousePressed()
                         && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
                         && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
                         && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE)
                         && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE)){
-                    System.out.println(coordonee[i][1]+RCERCLE);
-                    System.out.println(coordonee[i][1]-RCERCLE);
-                    System.out.println(coordonee[i][0]+RCERCLE);
-                    System.out.println(coordonee[i][0]-RCERCLE);
-                    System.out.println(i);
+                        System.out.println(i);
                     return i;
+                    }
+
                 }
+
             }
         }while (true);
     }
@@ -791,7 +801,7 @@ public class Jeton {
 
         StdDraw.setPenColor(StdDraw.RED);
         StdDraw.filledRectangle(-50, -85, 50, 15);
-        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.setPenColor(StdDraw.GREEN);
         StdDraw.filledRectangle(50, -85, 50, 15);
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.setPenRadius(0.01);
