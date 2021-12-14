@@ -141,15 +141,9 @@ public class Jeton {
 
     }
 
-    /**
-     * Initialise le jeu avec une tableau vide qui sera remplacer pas un triplet d'underscore a l'affichage
-     */
-    public static void initJeu() {
-        state = new String[NCASES]; //initialise le tableau dans lequel sera stocker les valeurs
-        for (int i = 0 ; i < NCASES ; i++ ){
-            state[i] = "";
-        }
-    }
+    
+    //------------------------Affichage Terminal---------------------
+
 
     /**
      * Affiche le plateau de jeu en mode texte
@@ -200,6 +194,21 @@ public class Jeton {
         
     }
 
+
+    //---------------------------Fontionemment----------------------------------------------
+
+
+    /**
+     * Initialise le jeu avec une tableau vide qui sera remplacer pas un triplet d'underscore a l'affichage
+     */
+    public static void initJeu() {
+        state = new String[NCASES]; //initialise le tableau dans lequel sera stocker les valeurs
+        for (int i = 0 ; i < NCASES ; i++ ){
+            state[i] = "";
+        }
+    }
+
+
     /**
      * Place un jeton sur le plateau, si possible.
      * @param couleur couleur du jeton : COULEURS[0] ou COULEURS[1]
@@ -236,12 +245,12 @@ public class Jeton {
     public static void tourJoueur(int val, String text, int joueur) {
         int idCaseJouee;
         boolean verif;
-        System.out.println(text + " (joueur" + joueur + ")");
-        do {//---------------------Deux joueur--------------------
+        System.out.println(text + " (joueur" + joueur + ")"); // demande au joueur n°joueur d'entre un nombre
+        do {
             idCaseJouee = actionJoueur();
             verif = jouer(COULEURS[joueur], val, idCaseJouee);
         }
-        while (!verif);
+        while (!verif); // si le numero de case n'a pas pu etre jouer recommencer l'opperation
 
     }
 
@@ -254,7 +263,8 @@ public class Jeton {
     public static void touria(int level, int val) {
         int idCaseJouee;
         boolean verif;
-        do {//---------------------Un joueur----------------------
+        // En fonction du niveau de l'ia demande a la bonne ia de donner un numero de case a jouer
+        do {
             switch (level) {
                 case 1: idCaseJouee = iaRouge1(); break;
                 case 2: idCaseJouee = iaRouge2(); break;
@@ -262,8 +272,7 @@ public class Jeton {
             }
             verif = jouer(COULEURS[1], val, idCaseJouee);
         }
-        while (!verif);
-        //fin tour iA / Joueur 2
+        while (!verif); // si le numero de case n'a pas pu etre jouer recommencer l'opperation
     }
 
 
@@ -300,7 +309,7 @@ public class Jeton {
     public static int getIdVide(){
         int idVide = 0;
         for (int i = 0 ; i < NCASES ; i++){
-            if (state[i].equals(""))
+            if (state[i].isEmpty())
                 idVide = i;
         }
         return idVide;
@@ -362,6 +371,7 @@ public class Jeton {
 
     /**
      * fait la somme du poid autour d'une case donnée
+     * Nous avons creez un copie de la fonction somme voisin que l'on peu utiliser en cour de partie pour la methode iaRouge2
      * @param col couleur a verifier
      * @param idVide case donnée
      * @return rend la somme des poids
@@ -423,19 +433,21 @@ public class Jeton {
                 return i;
             }
         }
+        // rend un message d'erreur si le n° de ligne n'a pas pus etre trouver
         System.out.println("error : can't find ligne number");
         return -1;
     }
 
 
     /**
-     * verifie la couleur de la case et rend la valuer si la couleur correspond
+     * verifie la couleur de la case et rend la valuer de la case si la couleur correspond
      * @param col couleur rechercher
      * @param stateToCheck couleur + valeur de la case
      * @return rend la valeur de la case ou 0 si mauvaise couleur
      */
     public static int verifCouleur(String col, String stateToCheck){
         int valeur = 0;
+        // si la case et vide rendre 0
         if ( stateToCheck.isEmpty() ){
             return valeur;
         }
@@ -444,6 +456,7 @@ public class Jeton {
         }
         return valeur;
     }
+
 
     /**
      * affiche qui a gagné la manche et adapte le score
@@ -473,6 +486,7 @@ public class Jeton {
         }
     }
 
+
     // ------------------------------IA----------------------------------------
 
     /**
@@ -488,32 +502,40 @@ public class Jeton {
         return 0;
     }
 
+
     /** renvoy le prochain coup pour les rouges random
      * Cette ia genere une cases aléotoire parmis les cases vides
      * @return id de la case
      */
     public static int iaRouge1(){
+        // crée une liste que l'on remplis avec l'id des cases vide
         List<Integer> emptycase = new ArrayList<>();
         for (int i = 0 ; i < NCASES ; i++ ){
             if (state[i].isEmpty())
                 emptycase.add(i);
         }
+        // genere un entier entre 0 et la taille de la liste - 1
+        // rend l'id de la case vide associer a ce nombre dans la liste 
         return emptycase.get(rand.nextInt(emptycase.size()));
     }
+
 
     /**
      * rend l'id de la case vide avec la plus grande somme rouge superieur a la somme bleu
      * @return id de la case
      */
     public static int iaRouge2(){
+        // crée une liste que l'on remplis avec l'id des cases vide
         List<Integer> emptycase = new ArrayList<>();
         int max = 0;
         for (int i = 0; i < NCASES; i++){
             if(state[i].isEmpty())
                 emptycase.add(i);
         }
+        // id max initialiser avec l'id de la premiere case vide
         int idMax = emptycase.get(0);
-        System.out.println(emptycase);
+        // pour chaque case vide faire la somme du poid des cases adjacente et si l'ia est perdente
+        // et si c'est la case ou elle perd le plus rendre l'id de cette case 
         for(int casesVides = 0; casesVides < emptycase.size(); casesVides++){
             if(sommeVoisinsVides(COULEURS[1]
                     , emptycase.get(casesVides))>sommeVoisinsVides(COULEURS[0]
@@ -690,13 +712,14 @@ public class Jeton {
         StdDraw.text(-50, -10, "Deux joueur");
         StdDraw.text(50, -10, "Jouer contre l'IA");
 
-
         do {
+            // Si le joueur clique sur la case jouer contre l'ia (droite) rendre true
             if (StdDraw.mousePressed() && StdDraw.mouseX() >= 0){
                 System.out.println(true);
                 StdDraw.pause(500);
                 return true;
             }
+            // Si le joueur clique sur la case deux joueur (gauche) rendre false
             else if (StdDraw.mousePressed() && StdDraw.mouseX() < 0){
                 System.out.println(false);
                 StdDraw.pause(500);
@@ -734,18 +757,23 @@ public class Jeton {
         StdDraw.line(-100, 20, 100, 20);
         StdDraw.line(-100, -40, 100, -40);
         do {
+            // Si le joueur clique sur la case du haut rendre 0 ( absycce entre 20 et 80) 
             if (StdDraw.mousePressed()
                     && StdDraw.mouseY() < 80
                     && StdDraw.mouseY() > 20){
                 System.out.println(0);
                 return 0;
             }
+            // Si le joueur clique sur la case du millieu rendre 1 ( absycce entre -40 et 20) 
+            if (StdDraw.mousePressed()
             else if (StdDraw.mousePressed()
                     && StdDraw.mouseY() < 20
                     && StdDraw.mouseY() > -40){
                 System.out.println(1);
                 return 1;
             }
+            // Si le joueur clique sur la case du bas rendre 2 ( absycce entre -100 et -40) 
+            if (StdDraw.mousePressed()
             else if (StdDraw.mousePressed()
                     && StdDraw.mouseY() < -40){
                 System.out.println(2);
@@ -758,6 +786,9 @@ public class Jeton {
 
     /**
      * Demande au joueur la case qu'il veux jouer
+     * Cette fonction recupere les coordonée des cases obtenue lors de l'initialisation
+     * et verifie si le joueur clique dans un carrée de demis distance le rayon du cercle et avec pour centre les coordonées récuperrer
+     * La zone de verifification et carré elle est donc plus grande que les cercles apparent mais le fonctionement restera inchanger
      * @return l'id de la case que le joueur veux jouer
      */
     private static int actionJoueur(){
@@ -792,7 +823,8 @@ public class Jeton {
 
 
     /**
-     * affiche le score du joueur et demande si il veux faire une autre manche
+     * affiche le resultat de la manche et demande si il veux faire une autre manche
+     * cette methode affiche aussi le score des joueur a traver les différente manche
      * @param sumB somme bleu
      * @param sumR somme rouge
      */
