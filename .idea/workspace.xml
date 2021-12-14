@@ -1,183 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f7bc2aa8-8fb7-4ef0-a05a-87bd4850ffd2" name="Changes" comment="isSingle graphique">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAE1.01-2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SAE1.01-2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programme/Jeton.class" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/programme/Jeton.java" beforeDir="false" afterPath="$PROJECT_DIR$/programme/Jeton.java" afterDir="false" />
+    <list default="true" id="643a65ea-c039-419f-9d4c-82e228f380c1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SAE1.01-2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Jeton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Jeton.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StdDraw$RetinaImageIcon.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StdDraw.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StdDraw.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectId" id="21jWTRRRMISTDCmrTK3a8mAba7S" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="22H1rzzkijAqT7c1R8YKhuYU5aP" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/programme" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.0" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/programme" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Programme" />
-    </key>
-  </component>
-  <component name="RunAnythingCache">
-    <option name="myCommands">
-      <command value="javac Jeton.java" />
-      <command value="javac Jeton.jave" />
-      <command value="javac programme/Jeton.java" />
-    </option>
-  </component>
-  <component name="RunManager">
-    <configuration name="Jeton" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Jeton" />
-      <module name="SAE1.01-2" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Jeton" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f7bc2aa8-8fb7-4ef0-a05a-87bd4850ffd2" name="Changes" comment="" />
-      <created>1638454983863</created>
+      <created>1639479901519</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1638454983863</updated>
-      <workItem from="1638454986601" duration="7866000" />
-      <workItem from="1638514941582" duration="13599000" />
-      <workItem from="1638860644335" duration="3690000" />
-      <workItem from="1638890735480" duration="11309000" />
-      <workItem from="1638965408260" duration="11669000" />
-      <workItem from="1639037777987" duration="190000" />
-      <workItem from="1639039732413" duration="5438000" />
-      <workItem from="1639121362112" duration="2769000" />
-      <workItem from="1639127900503" duration="1418000" />
-      <workItem from="1639149761154" duration="1117000" />
-      <workItem from="1639150894631" duration="19000" />
-      <workItem from="1639305495685" duration="7332000" />
+      <updated>1639479901519</updated>
     </task>
-    <task id="LOCAL-00001" summary="idFinLigne">
-      <created>1638457463309</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1638457463309</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Code Fonctionel + iA secpa">
-      <created>1638525987525</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1638525987526</updated>
-    </task>
-    <task id="LOCAL-00003" summary="isSingle graphique">
-      <created>1639043694703</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1639043694703</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="idFinLigne" />
-    <MESSAGE value="Code Fonctionel + iA secpa" />
-    <MESSAGE value="isSingle graphique" />
-    <option name="LAST_COMMIT_MESSAGE" value="isSingle graphique" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>278</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>300</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/programme/Jeton.java</url>
-          <line>554</line>
-          <properties class="Jeton" method="afficheJeuStdDraw">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
