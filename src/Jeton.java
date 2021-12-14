@@ -6,21 +6,30 @@ import java.util.*;
  * Updated by Villerot Justin and Nathan on  09/11/2021.
  */
 public class Jeton {
+    // deffinition des constente qui servent a changer l'apparence du terminal
     public static final String RESET = "\u001B[0m";
     public static final String TWHITE = "\u001B[37m";
     public static final String RBACKGROUND = "\u001B[41m";
-    public static final String BBACKGROUND = "\u001B[44m";
+    public static final String BBACKGROUND = "\u001B[44m";*
+
+    //attribus et constante d'origine
     static final Scanner input = new Scanner(System.in);
     private static String[] state; //tableau valeur
     static final int NCASES = 21;
     static final int NLIGNES = 6; 
     static final String[] COULEURS = {"B", "R"};
+
+
     static final Random rand = new Random(); // pour permetre de generer des nombres aléatoires
+
+    // Nous avons transformez ces deux variables en attributs pour pouvoir les utiliser en dehors de la méthode main
     private static int scoreBleus = 0; //variables scores
     private static int scoreRouges = 0;
-    public static final double RCERCLE = 15;
-    private static double[][] coordonee = new double[NCASES][2];
-    public static final String PARTOUT = " partout !";
+
+    // A
+    public static final double RCERCLE = 15; // rayon du cercle pour le tracer StdDraw
+    private static double[][] coordonee = new double[NCASES][2]; // tableau contenant mes coordonée nécessaire a m
+    public static final String PARTOUT = " partout !"; // sonarlint demandait de creer cette constante car cette chaine de texte etait utiliser plusieurs fois
 
     static boolean estOui(char reponse) {
         return "yYoO".indexOf(reponse) != -1;
@@ -31,6 +40,7 @@ public class Jeton {
         boolean newDeal;
         //deplacement des score pour pouvoir y acceder depuis tout le code
 
+        //variable contenent le texte qui demande au joueur quelle case il veux jouer
         String text = "Entre le numéro de la case" +
                 " ou vous voulez posez le jeton :";
         do {
@@ -51,41 +61,66 @@ public class Jeton {
             // version StdDraw
             boolean single = isSingle();
 
-
-            /* Version terminal
+            // demande au joueur de choisir le niveau de l'ia si il a choisi de jouer seul
             if (single){
+
+                /* Version terminal
+
                 System.out.println("Entrer le niveau de l'IA (0, 1 ou 2) : ");
                 level = input.nextInt();
-            }
-             */
-            if (single){
+                
+                */
+
+                //version StdDraw
                 level = iaLevel();
             }
 
-
+            // crée la fennetre StdDraw et trace les cases avec leur numéros
             initJeuSTDDraw();
+
+
             //------------------------Déroulement de la manche----------------
 
+            // affiche l'état du jeux dans le terminal
             afficheJeu();
+            // affiche l'état du jeux dans la fenettre StdDraw
             afficheJeuStdDraw();
 
-            for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) {
+            /* Cette boucle représente les differentes manches d'une partie
+               la valeur val représente la valeur des jeton
+               Le nombre de tout correspond au (nombre de case - 1)/2 pour la case vide
+               le tout diviser par deux car deux case sont jouer par tour 
+            */
+            for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) { 
                 System.out.println();
+
                 tourJoueur(val, text, 0);
                 //fin tour joueur 1
+
+                // affiche l'état du jeux dans le terminal
                 afficheJeu();
+                // affiche l'état du jeux dans la fenettre StdDraw
                 afficheJeuStdDraw();
 
+
+                // Si le joueur a décide de jouer seul la case choisi par le joueur 2 
+                // sinon la case sera decider de la meme maniere que pour le joueur 1
                 if (single) {
                     touria(level, val);
-                } else {
+                } 
+                else {
                     tourJoueur(val, text, 1);
                 }
+
+                // affiche l'état du jeux dans le terminal
                 afficheJeu();
+                // affiche l'état du jeux dans la fenettre StdDraw
                 afficheJeuStdDraw();
             }
+            //fin d'une manche 
 
 
+            // Somme des poid autour de la case vide
             int sumB = sommeVoisins(COULEURS[0]);
             int sumR = sommeVoisins(COULEURS[1]);
 
@@ -95,9 +130,11 @@ public class Jeton {
             newDeal = estOui(reponse);
              */
 
+            // Version StdDraw
             newDeal = scoreStdDraw(sumB, sumR);
 
         } while (newDeal);
+
         System.out.println("Bye Bye !");
         System.exit(0);
         afficheJeu();
@@ -105,7 +142,7 @@ public class Jeton {
     }
 
     /**
-     * Initialise le jeu avec un double/triple underscore à chaque case, signifiant 'case vide'
+     * Initialise le jeu avec une tableau vide qui sera remplacer pas un triplet d'underscore a l'affichage
      */
     public static void initJeu() {
         state = new String[NCASES]; //initialise le tableau dans lequel sera stocker les valeurs
@@ -119,7 +156,7 @@ public class Jeton {
      */
     public static void afficheJeu(){
         int idcase = 0;
-        String vide = "                    ";
+        String vide = "                                        ";
         String valeur;
         String cmptL; //initialistation de la variable compteur
         System.out.println();
@@ -130,11 +167,19 @@ public class Jeton {
             cmptL = " " + idDebutLigne(i) + "\t";
             //création de la chaine de character qui affiche le numéro de début de ligne.
             System.out.print(cmptL + ": "); //affichage du compteur
-            System.out.print(vide.substring(0, 18-(i*3)));
+            // affichage d'une chaine d'espace qui sert a montrer le décalage
+            System.out.print(vide.substring(0, vide.length-(i*3)));
+
+            // parcours des valeurs de la lignes. 
+            // On sait que lez numéro de la lignes et éguale au nombre de valeur que contient celle ci.
             for(int j = 1; j <= i; j++) {
-                if(state[idcase].equals("")){
+
+                // Si la case na pas été remplis, afficher un triplet d'underscore
+                if(state[idcase].isEmpty()){
                     System.out.print(" ___ ");
                 }
+                // Sinon afficher le contenue de la case avec le contenu colorier
+                // en fonction de sont premier charactere.
                 else {
                     valeur = state[idcase] + "  ";
                     if ( (valeur.substring(0, 1)).equals(COULEURS[0]) ){
@@ -142,11 +187,11 @@ public class Jeton {
                                 +valeur.substring(0, 3)+RESET+" " );
                     }
                     else {
-                        System.out.print( " "
-                                + RBACKGROUND
+                        System.out.print( " " + RBACKGROUND
                                 + TWHITE+valeur.substring(0, 3)+RESET+" " );
                     }
                 }
+                // incrémente l'id de la case appres la verificarion de chaque valeur
                 idcase++;
             }
             System.out.println();
@@ -163,19 +208,41 @@ public class Jeton {
      * @return true si le jeton a pu être posé, false sinon.
      */
     public static boolean jouer(String couleur, int val, int pos){
+        // Verifie si la position donnée et valide 
         if (pos < 0 || pos > NCASES-1) {
             System.out.println("error : invalid position number");
             return false;
         }
-        if ( !(state[pos].equals("")) ){
+        // Si la case n'est pas vide retourner false et en imprimer un message d'erreur
+        if ( !(state[pos].isEmpty) ){
             System.out.println("case deja occuper entrer un autre valeur");
             return false;
         }
+        // Sinon rentrer la couleur et la valeur du point poser et retourner true
         else {
             String temp =  couleur + val;
             state[pos] = temp;
             return true;
         }
+    }
+
+
+    /**
+     * execute le tour du joueur
+     * @param val valeur du jeton
+     * @param text texte a afficher dans le terminal
+     * @param joueur joueur qui joue 0 -> joueur 1 et 1 -> joueur 2
+     */
+    public static void tourJoueur(int val, String text, int joueur) {
+        int idCaseJouee;
+        boolean verif;
+        System.out.println(text + " (joueur" + joueur + ")");
+        do {//---------------------Deux joueur--------------------
+            idCaseJouee = actionJoueur();
+            verif = jouer(COULEURS[joueur], val, idCaseJouee);
+        }
+        while (!verif);
+
     }
 
 
@@ -199,24 +266,6 @@ public class Jeton {
         //fin tour iA / Joueur 2
     }
 
-
-    /**
-     * execute le tour du joueur
-     * @param val valeur du jeton
-     * @param text texte a afficher dans le terminal
-     * @param joueur joueur qui joue 0 -> joueur 1 et 1 -> joueur 2
-     */
-    public static void tourJoueur(int val, String text, int joueur) {
-        int idCaseJouee;
-        boolean verif;
-        System.out.println(text + " (joueur" + joueur + ")");
-        do {//---------------------Deux joueur--------------------
-            idCaseJouee = actionJoueur();
-            verif = jouer(COULEURS[joueur], val, idCaseJouee);
-        }
-        while (!verif);
-
-    }
 
     /**
      * Retourne l'indice de la case débutant la ligne idLigne
