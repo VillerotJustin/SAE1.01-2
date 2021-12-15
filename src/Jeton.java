@@ -6,29 +6,29 @@ import java.util.*;
  * Updated by Villerot Justin and Nathan on  09/11/2021.
  */
 public class Jeton {
-    // deffinition des constente qui servent a changer l'apparence du terminal
+    // Definition des constantes qui servent à changer l'apparence du terminal
     public static final String RESET = "\u001B[0m";
-    public static final String TWHITE = "\u001B[37m";
-    public static final String RBACKGROUND = "\u001B[41m";
-    public static final String BBACKGROUND = "\u001B[44m";
+    public static final String T_WHITE = "\u001B[37m";
+    public static final String R_BACKGROUND = "\u001B[41m";
+    public static final String B_BACKGROUND = "\u001B[44m";
 
-    //attribus et constante d'origine
+    // Attribues et constante d'origine
     static final Scanner input = new Scanner(System.in);
     private static String[] state; //tableau valeur
-    static final int NCASES = 21;
-    static final int NLIGNES = 6; 
+    static final int N_CASES = 21;
+    static final int N_LIGNES = 6;
     static final String[] COULEURS = {"B", "R"};
 
 
     static final Random rand = new Random(); // pour permetre de generer des nombres aléatoires
 
-    // Nous avons transformez ces deux variables en attributs pour pouvoir les utiliser en dehors de la méthode main
+    // Nous avons transformé ces deux variables en attributs pour pouvoir les utiliser en dehors de la méthode main
     private static int scoreBleus = 0; //variables scores
     private static int scoreRouges = 0;
 
     // A
     public static final double RCERCLE = 15; // rayon du cercle pour le tracer StdDraw
-    private static double[][] coordonee = new double[NCASES][2]; // tableau contenant mes coordonée nécessaire a m
+    private static double[][] coordonee = new double[N_CASES][2]; // tableau contenant mes coordonée nécessaire a m
     public static final String PARTOUT = " partout !"; // sonarlint demandait de creer cette constante car cette chaine de texte etait utiliser plusieurs fois
 
     static boolean estOui(char reponse) {
@@ -91,7 +91,7 @@ public class Jeton {
                Le nombre de tout correspond au (nombre de case - 1)/2 pour la case vide
                le tout diviser par deux car deux case sont jouer par tour 
             */
-            for ( int val = 1 ; val <= (NCASES-1)/2 ; val++) { 
+            for (int val = 1; val <= (N_CASES -1)/2 ; val++) {
                 System.out.println();
 
                 tourJoueur(val, text, 0);
@@ -157,7 +157,7 @@ public class Jeton {
         System.out.print("----------------------------------------");
         System.out.println("------");
         System.out.println();
-        for(int i = 1; i <= NLIGNES; i++){
+        for(int i = 1; i <= N_LIGNES; i++){
             cmptL = " " + idDebutLigne(i) + "\t";
             //création de la chaine de character qui affiche le numéro de début de ligne.
             System.out.print(cmptL + ": "); //affichage du compteur
@@ -177,12 +177,12 @@ public class Jeton {
                 else {
                     valeur = state[idcase] + "  ";
                     if ( (valeur.substring(0, 1)).equals(COULEURS[0]) ){
-                        System.out.print( " "+BBACKGROUND+TWHITE
+                        System.out.print( " "+ B_BACKGROUND + T_WHITE
                                 +valeur.substring(0, 3)+RESET+" " );
                     }
                     else {
-                        System.out.print( " " + RBACKGROUND
-                                + TWHITE+valeur.substring(0, 3)+RESET+" " );
+                        System.out.print( " " + R_BACKGROUND
+                                + T_WHITE +valeur.substring(0, 3)+RESET+" " );
                     }
                 }
                 // incrémente l'id de la case appres la verificarion de chaque valeur
@@ -202,8 +202,8 @@ public class Jeton {
      * Initialise le jeu avec une tableau vide qui sera remplacer pas un triplet d'underscore a l'affichage
      */
     public static void initJeu() {
-        state = new String[NCASES]; //initialise le tableau dans lequel sera stocker les valeurs
-        for (int i = 0 ; i < NCASES ; i++ ){
+        state = new String[N_CASES]; //initialise le tableau dans lequel sera stocker les valeurs
+        for (int i = 0; i < N_CASES; i++ ){
             state[i] = "";
         }
     }
@@ -218,7 +218,7 @@ public class Jeton {
      */
     public static boolean jouer(String couleur, int val, int pos){
         // Verifie si la position donnée et valide 
-        if (pos < 0 || pos > NCASES-1) {
+        if (pos < 0 || pos > N_CASES -1) {
             System.out.println("error : invalid position number");
             return false;
         }
@@ -308,7 +308,7 @@ public class Jeton {
      */
     public static int getIdVide(){
         int idVide = 0;
-        for (int i = 0 ; i < NCASES ; i++){
+        for (int i = 0; i < N_CASES; i++){
             if (state[i].isEmpty())
                 idVide = i;
         }
@@ -428,7 +428,7 @@ public class Jeton {
      * @return  numero de la ligne
      */
     public static int numligne(int idCase){
-        for (int i=1 ; i <= NLIGNES ; i++){
+        for (int i = 1; i <= N_LIGNES; i++){
             if ( idDebutLigne(i) <= idCase && idFinLigne(i) >= idCase){
                 return i;
             }
@@ -495,7 +495,7 @@ public class Jeton {
      * @return id de la case
      */
     public static int iaRouge(){
-        for (int i = 0 ; i < NCASES ; i++ ){
+        for (int i = 0; i < N_CASES; i++ ){
             if (state[i].isEmpty())
                 return i;
         }
@@ -510,7 +510,7 @@ public class Jeton {
     public static int iaRouge1(){
         // crée une liste que l'on remplis avec l'id des cases vide
         List<Integer> emptycase = new ArrayList<>();
-        for (int i = 0 ; i < NCASES ; i++ ){
+        for (int i = 0; i < N_CASES; i++ ){
             if (state[i].isEmpty())
                 emptycase.add(i);
         }
@@ -528,7 +528,7 @@ public class Jeton {
         // crée une liste que l'on remplis avec l'id des cases vide
         List<Integer> emptycase = new ArrayList<>();
         int max = 0;
-        for (int i = 0; i < NCASES; i++){
+        for (int i = 0; i < N_CASES; i++){
             if(state[i].isEmpty())
                 emptycase.add(i);
         }
@@ -576,7 +576,7 @@ public class Jeton {
         double xCaseLignePaire;
         double xCaseLigneImpaire;
         int decalage=0;
-        for (int ligne = 1 ; ligne <= NLIGNES ; ligne++){   // Parcours des lignes
+        for (int ligne = 1; ligne <= N_LIGNES; ligne++){   // Parcours des lignes
             if ((ligne%2)==0)             // augmente le décalage toute les ligne paires
                 decalage++;
             for (int emplacement = 0 ; emplacement < ligne ; emplacement++){
@@ -626,7 +626,7 @@ public class Jeton {
         double dCercle = 2 * RCERCLE;
         int idCase=0;
         int decalage=0;
-        for (int ligne = 1 ; ligne <= NLIGNES ; ligne++){   // Parcours des lignes
+        for (int ligne = 1; ligne <= N_LIGNES; ligne++){   // Parcours des lignes
             if ((ligne%2)==0)             // augmente le décalage toute les ligne paires
                 decalage++;
             for (int emplacement = 0 ; emplacement < ligne ; emplacement++){
@@ -789,32 +789,47 @@ public class Jeton {
      */
     private static int actionJoueur(){
         StdDraw.pause(500);
+        boolean test;
         do {
-            for (int i = 0; i < NCASES; i++){
-                if ((numligne(i)%2)==0){
-                    if (StdDraw.isMousePressed()
-                            && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
-                            && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
-                            && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE*2)
-                            && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE*2)){
-                        System.out.println(i);
-                        return i;
-                    }
-                }
-                else {
-                    if (StdDraw.isMousePressed()
-                        && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
-                        && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
-                        && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE)
-                        && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE)){
-                        System.out.println(i);
+            for (int i = 0; i < N_CASES; i++){
+                test = checkcliquecase(i);
+                if (test){
                     return i;
-                    }
-
                 }
 
             }
         }while (true);
+    }
+
+    /**
+     * Verifie si le joueur a clique sur la case i
+     * @param i id de la case
+     * @return true si le joueur a cliquer, false dans le cas contraire
+     */
+    private static Boolean checkcliquecase(int i){
+        if ((numligne(i)%2)==0){
+            if (StdDraw.isMousePressed()
+                    && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
+                    && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
+                    && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE*2)
+                    && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE*2)){
+                System.out.println(i);
+                return Boolean.TRUE;
+            }
+        }
+        else {
+            if (StdDraw.isMousePressed()
+                    && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
+                    && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
+                    && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE)
+                    && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE)){
+                System.out.println(i);
+                return Boolean.TRUE;
+            }
+
+        }
+        return Boolean.FALSE;
+
     }
 
 
