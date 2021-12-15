@@ -10,7 +10,7 @@ public class Jeton {
     public static final String RESET = "\u001B[0m";
     public static final String TWHITE = "\u001B[37m";
     public static final String RBACKGROUND = "\u001B[41m";
-    public static final String BBACKGROUND = "\u001B[44m";*
+    public static final String BBACKGROUND = "\u001B[44m";
 
     //attribus et constante d'origine
     static final Scanner input = new Scanner(System.in);
@@ -162,7 +162,7 @@ public class Jeton {
             //création de la chaine de character qui affiche le numéro de début de ligne.
             System.out.print(cmptL + ": "); //affichage du compteur
             // affichage d'une chaine d'espace qui sert a montrer le décalage
-            System.out.print(vide.substring(0, vide.length-(i*3)));
+            System.out.print(vide.substring(0, vide.length()-(i*3)));
 
             // parcours des valeurs de la lignes. 
             // On sait que lez numéro de la lignes et éguale au nombre de valeur que contient celle ci.
@@ -223,7 +223,7 @@ public class Jeton {
             return false;
         }
         // Si la case n'est pas vide retourner false et en imprimer un message d'erreur
-        if ( !(state[pos].isEmpty) ){
+        if ( !(state[pos].isEmpty()) ){
             System.out.println("case deja occuper entrer un autre valeur");
             return false;
         }
@@ -764,16 +764,14 @@ public class Jeton {
                 System.out.println(0);
                 return 0;
             }
-            // Si le joueur clique sur la case du millieu rendre 1 ( absycce entre -40 et 20) 
-            if (StdDraw.mousePressed()
+            // Si le joueur clique sur la case du millieu rendre 1 ( absycce entre -40 et 20)
             else if (StdDraw.mousePressed()
                     && StdDraw.mouseY() < 20
                     && StdDraw.mouseY() > -40){
                 System.out.println(1);
                 return 1;
             }
-            // Si le joueur clique sur la case du bas rendre 2 ( absycce entre -100 et -40) 
-            if (StdDraw.mousePressed()
+            // Si le joueur clique sur la case du bas rendre 2 ( absycce entre -100 et -40)
             else if (StdDraw.mousePressed()
                     && StdDraw.mouseY() < -40){
                 System.out.println(2);
