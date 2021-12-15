@@ -536,14 +536,14 @@ public class Jeton {
         int idMax = emptycase.get(0);
         // pour chaque case vide faire la somme du poid des cases adjacente et si l'ia est perdente
         // et si c'est la case ou elle perd le plus rendre l'id de cette case 
-        for(int casesVides = 0; casesVides < emptycase.size(); casesVides++){
-            if(sommeVoisinsVides(COULEURS[1]
-                    , emptycase.get(casesVides))>sommeVoisinsVides(COULEURS[0]
-                    , emptycase.get(casesVides))
+        for (Integer integer : emptycase) {
+            if (sommeVoisinsVides(COULEURS[1]
+                    , integer) > sommeVoisinsVides(COULEURS[0]
+                    , integer)
                     && sommeVoisinsVides(COULEURS[1]
-                    , emptycase.get(casesVides)) > max){
-                max=sommeVoisinsVides(COULEURS[1], emptycase.get(casesVides));
-                idMax = emptycase.get(casesVides);
+                    , integer) > max) {
+                max = sommeVoisinsVides(COULEURS[1], integer);
+                idMax = integer;
             }
         }
         return idMax;
@@ -590,8 +590,6 @@ public class Jeton {
                     StdDraw.text(xCaseLigneImpaire-(dCercle*decalage)
                             , yLigne
                             , idCaseString);
-                    coordonee[idCase][0]= xCaseLigneImpaire-(dCercle*decalage);
-                    coordonee[idCase][1]= yLigne;
                 }
                 else {
                     StdDraw.circle(xCaseLignePaire-(dCercle*decalage)
@@ -600,9 +598,9 @@ public class Jeton {
                     StdDraw.text(xCaseLignePaire-(dCercle*decalage)
                             , yLigne
                             , idCaseString);
-                    coordonee[idCase][0]= xCaseLigneImpaire-(dCercle*decalage);
-                    coordonee[idCase][1]= yLigne;
                 }
+                coordonee[idCase][0]= xCaseLigneImpaire-(dCercle*decalage);
+                coordonee[idCase][1]= yLigne;
                 idCase++;
             }
             yLigne-= dCercle+1;
@@ -714,13 +712,13 @@ public class Jeton {
 
         do {
             // Si le joueur clique sur la case jouer contre l'ia (droite) rendre true
-            if (StdDraw.mousePressed() && StdDraw.mouseX() >= 0){
+            if (StdDraw.isMousePressed() && StdDraw.mouseX() >= 0){
                 System.out.println(true);
                 StdDraw.pause(500);
                 return true;
             }
             // Si le joueur clique sur la case deux joueur (gauche) rendre false
-            else if (StdDraw.mousePressed() && StdDraw.mouseX() < 0){
+            else if (StdDraw.isMousePressed() && StdDraw.mouseX() < 0){
                 System.out.println(false);
                 StdDraw.pause(500);
                 return false;
@@ -758,14 +756,14 @@ public class Jeton {
         StdDraw.line(-100, -40, 100, -40);
         do {
             // Si le joueur clique sur la case du haut rendre 0 ( absycce entre 20 et 80) 
-            if (StdDraw.mousePressed()
+            if (StdDraw.isMousePressed()
                     && StdDraw.mouseY() < 80
                     && StdDraw.mouseY() > 20){
                 System.out.println(0);
                 return 0;
             }
             // Si le joueur clique sur la case du millieu rendre 1 ( absycce entre -40 et 20)
-            else if (StdDraw.mousePressed()
+            else if (StdDraw.isMousePressed()
                     && StdDraw.mouseY() < 20
                     && StdDraw.mouseY() > -40){
                 System.out.println(1);
@@ -794,7 +792,7 @@ public class Jeton {
         do {
             for (int i = 0; i < NCASES; i++){
                 if ((numligne(i)%2)==0){
-                    if (StdDraw.mousePressed()
+                    if (StdDraw.isMousePressed()
                             && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
                             && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
                             && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE*2)
@@ -804,7 +802,7 @@ public class Jeton {
                     }
                 }
                 else {
-                    if (StdDraw.mousePressed()
+                    if (StdDraw.isMousePressed()
                         && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
                         && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
                         && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE)
@@ -893,14 +891,14 @@ public class Jeton {
         StdDraw.text(-50, -85, " Arreter la partie ");
 
         do {
-            if (StdDraw.mousePressed()
+            if (StdDraw.isMousePressed()
                     && StdDraw.mouseX() >= 0
                     && StdDraw.mouseY() <= -70){
                 System.out.println(true);
                 StdDraw.pause(500);
                 return true;
             }
-            else if (StdDraw.mousePressed()
+            else if (StdDraw.isMousePressed()
                     && StdDraw.mouseX() < 0
                     && StdDraw.mouseY() <= -70){
                 System.out.println(false);

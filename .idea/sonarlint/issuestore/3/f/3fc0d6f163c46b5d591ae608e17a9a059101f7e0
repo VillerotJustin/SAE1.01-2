@@ -1,8 +1,0 @@
-
-B
-java:S14812",Remove this unused "reponse" local variable.(©Ø∑Å
-Q	java:S1257"<This block of commented-out lines of code should be removed.(∫Ñº®
-Q	java:S125E"<This block of commented-out lines of code should be removed.(–“Åÿ
-V	java:S125"<This block of commented-out lines of code should be removed.(∆éêñˇˇˇˇˇ
-n
-java:S3776ò"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(ÏÀîÇ˘ˇˇˇˇ
