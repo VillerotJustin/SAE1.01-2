@@ -783,7 +783,7 @@ public class Jeton {
                 return 1;
             }
             // Si le joueur clique sur la case du bas rendre 2 (abscisse entre -100 et -40)
-            else if (StdDraw.mousePressed()
+            else if (StdDraw.isMousePressed()
                     && StdDraw.mouseY() < -40){
                 System.out.println(2);
                 return 2;
@@ -866,7 +866,7 @@ public class Jeton {
             StdDraw.setPenColor(StdDraw.BLUE);
             StdDraw.filledRectangle(0, 42.5, 100, 37.5);
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.text(0, 42.5, "Les bleu on gagnés la manche avec "
+            StdDraw.text(0, 42.5, "Les bleus ont gagné la manche avec "
             + sumB + contre + sumR);
             scoreBleus++;
         }
@@ -874,7 +874,7 @@ public class Jeton {
             StdDraw.setPenColor(StdDraw.RED);
             StdDraw.filledRectangle(0, 42.5, 100, 37.5);
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.text(0, 42.5, "Les Rouges on gagnés la manche avec "
+            StdDraw.text(0, 42.5, "Les Rouges ont gagné la manche avec "
                     + sumR + contre + sumB);
             scoreRouges++;
         }
@@ -890,7 +890,7 @@ public class Jeton {
             StdDraw.setPenColor(StdDraw.BLUE);
             StdDraw.filledRectangle(0, -32.5, 100, 37.5);
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.text(0, -32.5, "Les bleu gagne la partie avec "
+            StdDraw.text(0, -32.5, "Les bleus gagne la partie avec "
                     + scoreBleus + contre + scoreRouges);
         }
         else if (scoreRouges > scoreBleus){
