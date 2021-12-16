@@ -3,7 +3,8 @@ import java.util.*;
 
 /**
  * Created by zulupero on 24/09/2021.
- * Updated by Villerot Justin and Nathan on  09/11/2021.
+ * Updated by Villerot Justin and VALENNE Nathan on  16/11/2021.
+ * Group 18
  */
 public class Jeton {
     // Definition des constantes qui servent à changer l'apparence du terminal
@@ -20,16 +21,21 @@ public class Jeton {
     static final String[] COULEURS = {"B", "R"};
 
 
-    static final Random rand = new Random(); // pour permetre de generer des nombres aléatoires
+    static final Random rand = new Random(); // pour permettre de générer des nombres aléatoires
 
     // Nous avons transformé ces deux variables en attributs pour pouvoir les utiliser en dehors de la méthode main
     private static int scoreBleus = 0; //variables scores
     private static int scoreRouges = 0;
 
-    // A
-    public static final double RCERCLE = 15; // rayon du cercle pour le tracer StdDraw
-    private static double[][] coordonee = new double[N_CASES][2]; // tableau contenant mes coordonée nécessaire a m
-    public static final String PARTOUT = " partout !"; // sonarlint demandait de creer cette constante car cette chaine de texte etait utiliser plusieurs fois
+    // Attribue et Constante rajouter
+    public static final double R_CERCLE = 15;
+    // rayon du cercle pour le tracer StdDraw
+    private static final double[][] coordonnee = new double[N_CASES][2];
+    // tableau contenant mes coordonnées nécessaires a l'affichage StdDraw
+    public static final String PARTOUT = " partout !";
+    // sonarlint demandait de créer cette constante, car cette chaine de texte était utilisé plusieurs fois
+    public static final int SIZE = 100;
+    // taille de la fenêtre StdDraw qui affiche les cases
 
     static boolean estOui(char reponse) {
         return "yYoO".indexOf(reponse) != -1;
@@ -38,13 +44,13 @@ public class Jeton {
     public static void main(String[] args) {
 
         boolean newDeal;
-        //deplacement des score pour pouvoir y acceder depuis tout le code
+        // déplacement des variables scores pour pouvoir y accede depuis tout le code
 
-        //variable contenent le texte qui demande au joueur quelle case il veux jouer
+        // variable contenant le texte qui demande au joueur quelle case il veut jouer
         String text = "Entre le numéro de la case" +
                 " ou vous voulez posez le jeton :";
         do {
-            //----------inititalisation et création des variables-------------
+            //----------initialisation et création des variables-------------
             initJeu();
             int level = 0;
             char reponse;
@@ -61,10 +67,10 @@ public class Jeton {
             // version StdDraw
             boolean single = isSingle();
 
-            // demande au joueur de choisir le niveau de l'ia si il a choisi de jouer seul
+            // demande au joueur de choisir le niveau de l'IA s'il a choisi de jouer seul
             if (single){
 
-                /* Version terminal
+                /* Version terminale
 
                 System.out.println("Entrer le niveau de l'IA (0, 1 ou 2) : ");
                 level = input.nextInt();
@@ -75,21 +81,21 @@ public class Jeton {
                 level = iaLevel();
             }
 
-            // crée la fennetre StdDraw et trace les cases avec leur numéros
+            // crée la fenêtre StdDraw et trace les cases avec leurs numéros
             initJeuSTDDraw();
 
 
             //------------------------Déroulement de la manche----------------
 
-            // affiche l'état du jeux dans le terminal
+            // affiche l'état du jeu dans le terminal
             afficheJeu();
-            // affiche l'état du jeux dans la fenettre StdDraw
+            // affiche l'état des jeux dans la fenêtre StdDraw
             afficheJeuStdDraw();
 
-            /* Cette boucle représente les differentes manches d'une partie
-               la valeur val représente la valeur des jeton
-               Le nombre de tout correspond au (nombre de case - 1)/2 pour la case vide
-               le tout diviser par deux car deux case sont jouer par tour 
+            /* Cette boucle représente les différentes manches d'une partie
+               la valeur val représente la valeur des jetons
+               Le nombre de tout correspond au (nombre de cases - 1)/2 pour la case vide
+               le tout diviser par deux car deux cases sont jouées par tour
             */
             for (int val = 1; val <= (N_CASES -1)/2 ; val++) {
                 System.out.println();
@@ -97,14 +103,14 @@ public class Jeton {
                 tourJoueur(val, text, 0);
                 //fin tour joueur 1
 
-                // affiche l'état du jeux dans le terminal
+                // affiche l'état du jeu dans le terminal
                 afficheJeu();
-                // affiche l'état du jeux dans la fenettre StdDraw
+                // affiche l'état du jeu dans la fenêtre StdDraw
                 afficheJeuStdDraw();
 
 
-                // Si le joueur a décide de jouer seul la case choisi par le joueur 2 
-                // sinon la case sera decider de la meme maniere que pour le joueur 1
+                // Si le joueur a décidé de jouer seul la case choisi par le joueur 2
+                // sinon la case sera decider de la meme manière que pour le joueur 1
                 if (single) {
                     touria(level, val);
                 } 
@@ -112,15 +118,15 @@ public class Jeton {
                     tourJoueur(val, text, 1);
                 }
 
-                // affiche l'état du jeux dans le terminal
+                // affiche l'état du jeu dans le terminal
                 afficheJeu();
-                // affiche l'état du jeux dans la fenettre StdDraw
+                // affiche l'état du jeu dans la fenêtre StdDraw
                 afficheJeuStdDraw();
             }
             //fin d'une manche 
 
 
-            // Somme des poid autour de la case vide
+            // Somme des poids autour de la case vide
             int sumB = sommeVoisins(COULEURS[0]);
             int sumR = sommeVoisins(COULEURS[1]);
 
@@ -149,33 +155,34 @@ public class Jeton {
      * Affiche le plateau de jeu en mode texte
      */
     public static void afficheJeu(){
-        int idcase = 0;
+        int idCase = 0;
         String vide = "                                        ";
         String valeur;
-        String cmptL; //initialistation de la variable compteur
+        String compteur; //initialisation de la variable compteur
         System.out.println();
+        System.out.print("----------------------------------------");
         System.out.print("----------------------------------------");
         System.out.println("------");
         System.out.println();
         for(int i = 1; i <= N_LIGNES; i++){
-            cmptL = " " + idDebutLigne(i) + "\t";
+            compteur = " " + idDebutLigne(i) + "\t";
             //création de la chaine de character qui affiche le numéro de début de ligne.
-            System.out.print(cmptL + ": "); //affichage du compteur
-            // affichage d'une chaine d'espace qui sert a montrer le décalage
+            System.out.print(compteur + ": "); //affichage du compteur
+            // affichage d'une chaine d'espace qui sert à montrer le décalage
             System.out.print(vide.substring(0, vide.length()-(i*3)));
 
-            // parcours des valeurs de la lignes. 
-            // On sait que lez numéro de la lignes et éguale au nombre de valeur que contient celle ci.
+            // Parcours des valeurs de la ligne.
+            // On sait que lez numéro de la ligne et égale au nombre de valeurs que contient celle ci.
             for(int j = 1; j <= i; j++) {
 
                 // Si la case na pas été remplis, afficher un triplet d'underscore
-                if(state[idcase].isEmpty()){
+                if(state[idCase].isEmpty()){
                     System.out.print(" ___ ");
                 }
-                // Sinon afficher le contenue de la case avec le contenu colorier
-                // en fonction de sont premier charactere.
+                // Sinon afficher le contenu de la case avec le contenu colorier
+                // en fonction de son premier character.
                 else {
-                    valeur = state[idcase] + "  ";
+                    valeur = state[idCase] + "  ";
                     if ( (valeur.substring(0, 1)).equals(COULEURS[0]) ){
                         System.out.print( " "+ B_BACKGROUND + T_WHITE
                                 +valeur.substring(0, 3)+RESET+" " );
@@ -185,8 +192,8 @@ public class Jeton {
                                 + T_WHITE +valeur.substring(0, 3)+RESET+" " );
                     }
                 }
-                // incrémente l'id de la case appres la verificarion de chaque valeur
-                idcase++;
+                // incrémente l'id de la case après la verification de chaque valeur
+                idCase++;
             }
             System.out.println();
             System.out.println();
@@ -195,11 +202,11 @@ public class Jeton {
     }
 
 
-    //---------------------------Fontionemment----------------------------------------------
+    //---------------------------Fonctionnement----------------------------------------------
 
 
     /**
-     * Initialise le jeu avec une tableau vide qui sera remplacer pas un triplet d'underscore a l'affichage
+     * Initialise le jeu avec un tableau vide qui sera remplacer pas un triplet d'underscore a l'affichage
      */
     public static void initJeu() {
         state = new String[N_CASES]; //initialise le tableau dans lequel sera stocker les valeurs
@@ -217,7 +224,7 @@ public class Jeton {
      * @return true si le jeton a pu être posé, false sinon.
      */
     public static boolean jouer(String couleur, int val, int pos){
-        // Verifie si la position donnée et valide 
+        // Vérifie si la position donnée et valide
         if (pos < 0 || pos > N_CASES -1) {
             System.out.println("error : invalid position number");
             return false;
@@ -240,45 +247,50 @@ public class Jeton {
      * execute le tour du joueur
      * @param val valeur du jeton
      * @param text texte a afficher dans le terminal
-     * @param joueur joueur qui joue 0 -> joueur 1 et 1 -> joueur 2
+     * @param joueur joueur qui joue 0 → joueur 1 et 1 → joueur 2
      */
     public static void tourJoueur(int val, String text, int joueur) {
-        int idCaseJouee;
-        boolean verif;
-        System.out.println(text + " (joueur" + joueur + ")"); // demande au joueur n°joueur d'entre un nombre
+        int idCaseJouer;
+        boolean verification;
+        System.out.println(text + " (joueur" + joueur + ")");
+        // demande au joueur n°joueur d'entre un nombre
         do {
-            idCaseJouee = actionJoueur();
-            verif = jouer(COULEURS[joueur], val, idCaseJouee);
+            // idCaseJouer = input.nextInt(); version terminal
+            idCaseJouer = actionJoueur(); //StdDraw
+            verification = jouer(COULEURS[joueur], val, idCaseJouer);
         }
-        while (!verif); // si le numero de case n'a pas pu etre jouer recommencer l'opperation
+        while (!verification);
+        // si le numéro de case n'a pas pu être joué, recommencer l'opération
 
     }
 
 
     /**
-     * joue la tour de l'ia
-     * @param level niveau de l'ia
+     * joue la tour de l'IA
+     * @param level niveau de l'IA
      * @param val valeur du jeton
      */
     public static void touria(int level, int val) {
-        int idCaseJouee;
-        boolean verif;
-        // En fonction du niveau de l'ia demande a la bonne ia de donner un numero de case a jouer
+        int idCaseJouer;
+        boolean verification;
+        // En fonction du niveau de l'IA demande à la bonne ia
+        // de donner un numéro de case à jouer
         do {
             switch (level) {
-                case 1: idCaseJouee = iaRouge1(); break;
-                case 2: idCaseJouee = iaRouge2(); break;
-                default: idCaseJouee = iaRouge(); break;
+                case 1: idCaseJouer = iaRouge1(); break;
+                case 2: idCaseJouer = iaRouge2(); break;
+                default: idCaseJouer = iaRouge(); break;
             }
-            verif = jouer(COULEURS[1], val, idCaseJouee);
+            verification = jouer(COULEURS[1], val, idCaseJouer);
         }
-        while (!verif); // si le numero de case n'a pas pu etre jouer recommencer l'opperation
+        while (!verification);
+        // si le numéro de case n'a pas pu être joué, recommencer l'opération
     }
 
 
     /**
      * Retourne l'indice de la case débutant la ligne idLigne
-     * @param idLigne indice de la ligne. La première ligne est la ligne #0.
+     * @param idLigne Indice de la ligne. La première ligne est la ligne #0.
      * @return l'indice de la case la plus à gauche de la ligne
      */
     public static int idDebutLigne(int idLigne){
@@ -291,7 +303,7 @@ public class Jeton {
 
     /**
      * Retourne l'indice de la case terminant la ligne idLigne
-     * @param idLigne indice de la ligne. La première ligne est la ligne #0.
+     * @param idLigne Indice de la ligne. La première ligne est la ligne #0.
      * @return l'indice de la case la plus à droite de la ligne
      */
     public static int idFinLigne(int idLigne){
@@ -325,44 +337,44 @@ public class Jeton {
     public static int sommeVoisins(String col){
         int idVide = getIdVide();
         int sommeVoisins = 0;
-        int idligne = numligne(idVide);
+        int idLigne = numLigne(idVide);
         if (idVide == 0){
-            sommeVoisins += verifCouleur(col, state[1]);
-            sommeVoisins += verifCouleur(col, state[2]);
+            sommeVoisins += verificationCouleur(col, state[1]);
+            sommeVoisins += verificationCouleur(col, state[2]);
         } //haut
-        else if (idVide == 15){
-            sommeVoisins += verifCouleur(col, state[10]);
-            sommeVoisins += verifCouleur(col, state[16]);
+        else if (idVide == idDebutLigne(N_LIGNES)){
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide+1]);
         } // bas droite
-        else if (idVide == 20){
-            sommeVoisins += verifCouleur(col, state[14]);
-            sommeVoisins += verifCouleur(col, state[19]);
+        else if (idVide == idFinLigne(N_LIGNES)){
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide-1]);
         } // bas gauche
-        else if (idVide == idFinLigne(idligne)){
-            sommeVoisins += verifCouleur(col, state[idVide-1]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne+1]);
+        else if (idVide == idFinLigne(idLigne)){
+            sommeVoisins += verificationCouleur(col, state[idVide-1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne+1]);
         }//case a droite
-        else if (idVide == 1 || idVide == 3|| idVide ==6 || idVide == 10){
-            sommeVoisins += verifCouleur(col, state[idVide+1]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne+1]);
+        else if (idVide == idDebutLigne(idLigne)){
+            sommeVoisins += verificationCouleur(col, state[idVide+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne+1]);
         }//case a gauche
-        else if (idVide > 15 && idVide < 20){
-            sommeVoisins += verifCouleur(col, state[idVide+1]);
-            sommeVoisins += verifCouleur(col, state[idVide-1]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+        else if (idVide > idDebutLigne(N_LIGNES) && idVide < idFinLigne(N_LIGNES)){
+            sommeVoisins += verificationCouleur(col, state[idVide+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
         }//case bas
         else{
-            sommeVoisins += verifCouleur(col, state[idVide+1]);
-            sommeVoisins += verifCouleur(col, state[idVide-1]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
 
         } // centre
         return sommeVoisins;
@@ -370,52 +382,53 @@ public class Jeton {
 
 
     /**
-     * fait la somme du poid autour d'une case donnée
-     * Nous avons creez un copie de la fonction somme voisin que l'on peu utiliser en cour de partie pour la methode iaRouge2
+     * Fait la somme du poids autour d'une case donnée.
+     * Nous avons créé une copie de la fonction somme voisin que l'on peut utiliser,
+     * en cours de partie pour la methode iaRouge2.
      * @param col couleur a verifier
      * @param idVide case donnée
      * @return rend la somme des poids
      */
     public static int sommeVoisinsVides(String col, int idVide){
         int sommeVoisins = 0;
-        int idligne = numligne(idVide);
+        int idLigne = numLigne(idVide);
         if (idVide == 0){
-            sommeVoisins += verifCouleur(col, state[1]);
-            sommeVoisins += verifCouleur(col, state[2]);
+            sommeVoisins += verificationCouleur(col, state[1]);
+            sommeVoisins += verificationCouleur(col, state[2]);
         } //haut
-        else if (idVide == 15){
-            sommeVoisins += verifCouleur(col, state[10]);
-            sommeVoisins += verifCouleur(col, state[16]);
+        else if (idVide == idDebutLigne(N_LIGNES)){
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide+1]);
         } // bas droite
-        else if (idVide == 20){
-            sommeVoisins += verifCouleur(col, state[14]);
-            sommeVoisins += verifCouleur(col, state[19]);
+        else if (idVide == idFinLigne(N_LIGNES)){
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide-1]);
         } // bas gauche
-        else if (idVide == idFinLigne(idligne)){
-            sommeVoisins += verifCouleur(col, state[idVide-1]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne+1]);
+        else if (idVide == idFinLigne(idLigne)){
+            sommeVoisins += verificationCouleur(col, state[idVide-1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne+1]);
         }//case a droite
-        else if (idVide == 1 || idVide == 3|| idVide ==6 || idVide == 10){
-            sommeVoisins += verifCouleur(col, state[idVide+1]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne+1]);
+        else if (idVide == idDebutLigne(idLigne)){
+            sommeVoisins += verificationCouleur(col, state[idVide+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne+1]);
         }//case a gauche
-        else if (idVide > 15 && idVide < 20){
-            sommeVoisins += verifCouleur(col, state[idVide+1]);
-            sommeVoisins += verifCouleur(col, state[idVide-1]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+        else if (idVide > idDebutLigne(N_LIGNES) && idVide < idFinLigne(N_LIGNES)){
+            sommeVoisins += verificationCouleur(col, state[idVide+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
         }//case bas
         else{
-            sommeVoisins += verifCouleur(col, state[idVide+1]);
-            sommeVoisins += verifCouleur(col, state[idVide-1]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
-            sommeVoisins += verifCouleur(col, state[idVide+idligne]);
-            sommeVoisins += verifCouleur(col, state[idVide-idligne+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-1]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
+            sommeVoisins += verificationCouleur(col, state[idVide+idLigne]);
+            sommeVoisins += verificationCouleur(col, state[idVide-idLigne+1]);
 
         } // centre
         return sommeVoisins;
@@ -423,29 +436,29 @@ public class Jeton {
 
 
     /**
-     * rend le numero de la ligne de la case avec pour id idCase
+     * rend le numéro de la ligne de la case avec pour id idCase
      * @param idCase id de la case dont on cherche la ligne
-     * @return  numero de la ligne
+     * @return  numéro de la ligne
      */
-    public static int numligne(int idCase){
+    public static int numLigne(int idCase){
         for (int i = 1; i <= N_LIGNES; i++){
             if ( idDebutLigne(i) <= idCase && idFinLigne(i) >= idCase){
                 return i;
             }
         }
-        // rend un message d'erreur si le n° de ligne n'a pas pus etre trouver
+        // rend un message d'erreur si le n° de ligne n'a pas pu être trouvé
         System.out.println("error : can't find ligne number");
         return -1;
     }
 
 
     /**
-     * verifie la couleur de la case et rend la valuer de la case si la couleur correspond
+     * Vérifie la couleur de la case et rend la valuer de la case si la couleur correspond
      * @param col couleur rechercher
      * @param stateToCheck couleur + valeur de la case
      * @return rend la valeur de la case ou 0 si mauvaise couleur
      */
-    public static int verifCouleur(String col, String stateToCheck){
+    public static int verificationCouleur(String col, String stateToCheck){
         int valeur = 0;
         // si la case et vide rendre 0
         if ( stateToCheck.isEmpty() ){
@@ -460,7 +473,7 @@ public class Jeton {
 
     /**
      * affiche qui a gagné la manche et adapte le score
-     * @param sumB somme des bleu
+     * @param sumB somme des bleus
      * @param sumR somme des rouges
      */
     public static void score(int sumB, int sumR){
@@ -491,7 +504,7 @@ public class Jeton {
 
     /**
      * Renvoie le prochain coup à jouer pour les rouges le premier disponible
-     * Algo naïf = la première case dispo
+     * Algo naïf = la première case disponible
      * @return id de la case
      */
     public static int iaRouge(){
@@ -503,40 +516,41 @@ public class Jeton {
     }
 
 
-    /** renvoy le prochain coup pour les rouges random
-     * Cette ia genere une cases aléotoire parmis les cases vides
+    /** Rend le prochain coup pour les rouges random
+     * Cette ia génère une case aléatoire parmi les cases vides
      * @return id de la case
      */
     public static int iaRouge1(){
-        // crée une liste que l'on remplis avec l'id des cases vide
-        List<Integer> emptycase = new ArrayList<>();
+        // crée une liste que l'on remplit avec l'id des cases vide
+        List<Integer> emptyCase = new ArrayList<>();
         for (int i = 0; i < N_CASES; i++ ){
             if (state[i].isEmpty())
-                emptycase.add(i);
+                emptyCase.add(i);
         }
-        // genere un entier entre 0 et la taille de la liste - 1
+        // génère un entier entre 0 et la taille de la liste - 1
         // rend l'id de la case vide associer a ce nombre dans la liste 
-        return emptycase.get(rand.nextInt(emptycase.size()));
+        return emptyCase.get(rand.nextInt(emptyCase.size()));
     }
 
 
     /**
-     * rend l'id de la case vide avec la plus grande somme rouge superieur a la somme bleu
+     * rend l'id de la case vide avec la plus grande somme rouge supérieur a la somme bleue
      * @return id de la case
      */
     public static int iaRouge2(){
-        // crée une liste que l'on remplis avec l'id des cases vide
-        List<Integer> emptycase = new ArrayList<>();
+        // crée une liste que l'on remplit avec l'id des cases vide
+        List<Integer> emptyCase = new ArrayList<>();
         int max = 0;
         for (int i = 0; i < N_CASES; i++){
             if(state[i].isEmpty())
-                emptycase.add(i);
+                emptyCase.add(i);
         }
         // id max initialiser avec l'id de la premiere case vide
-        int idMax = emptycase.get(0);
-        // pour chaque case vide faire la somme du poid des cases adjacente et si l'ia est perdente
+        int idMax = emptyCase.get(0);
+        // pour chaque case vide faire la somme du poids des cases adjacente
+        // et si l'IA est perdente sur cette case
         // et si c'est la case ou elle perd le plus rendre l'id de cette case 
-        for (Integer integer : emptycase) {
+        for (Integer integer : emptyCase) {
             if (sommeVoisinsVides(COULEURS[1]
                     , integer) > sommeVoisinsVides(COULEURS[0]
                     , integer)
@@ -551,8 +565,8 @@ public class Jeton {
     }
 
     /*
-		Écire un véritable code sachant jouer.
-		La ligne du return ci-dessous doit donc naturellement aussi être ré-écrite.
+		Écrire un véritable code sachant jouer.
+		La ligne du return ci-dessous doit donc naturellement aussi être réécrite.
 		Cette version ne permet que de reproduire le fonctionnement à 2 joueurs
 		tout en conservant l'appel à la fonction,
 		cela peut s'avérer utile lors du développement.
@@ -565,28 +579,28 @@ public class Jeton {
      * Initialise l'interface STDDraw
      */
     public static void initJeuSTDDraw() {
-        StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
-        StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
+        StdDraw.setXscale(-SIZE, SIZE); // fixe l'amplitude des abscisses dans la fenêtre
+        StdDraw.setYscale(-SIZE, SIZE); // fixe l'amplitude des ordonnées dans la fenêtre
         StdDraw.clear(StdDraw.WHITE); //fond d'écrans en blanc
         StdDraw.setPenColor(StdDraw.BLACK);
-        double yLigne= 80;//initialisation de l'ordonnées des lignes de valeurs
-        double dCercle = 2 * RCERCLE;
+        double yLigne= 80;//initialisation des ordonnées des lignes de valeurs
+        double dCercle = 2 * R_CERCLE;
         int idCase=0;
         String idCaseString;
         double xCaseLignePaire;
         double xCaseLigneImpaire;
         int decalage=0;
         for (int ligne = 1; ligne <= N_LIGNES; ligne++){   // Parcours des lignes
-            if ((ligne%2)==0)             // augmente le décalage toute les ligne paires
+            if ((ligne%2)==0)             // augmente le décalage toute les ligne pairs
                 decalage++;
             for (int emplacement = 0 ; emplacement < ligne ; emplacement++){
                 idCaseString = Integer.toString(idCase);
-                xCaseLignePaire = RCERCLE+dCercle*emplacement;
+                xCaseLignePaire = R_CERCLE +dCercle*emplacement;
                 xCaseLigneImpaire = (0+dCercle*emplacement);
                 if ( ( ligne % 2 ) != 0){
                     StdDraw.circle(xCaseLigneImpaire-(dCercle*decalage)
                             , yLigne
-                            , RCERCLE);
+                            , R_CERCLE);
                     StdDraw.text(xCaseLigneImpaire-(dCercle*decalage)
                             , yLigne
                             , idCaseString);
@@ -594,26 +608,26 @@ public class Jeton {
                 else {
                     StdDraw.circle(xCaseLignePaire-(dCercle*decalage)
                             , yLigne
-                            , RCERCLE);
+                            , R_CERCLE);
                     StdDraw.text(xCaseLignePaire-(dCercle*decalage)
                             , yLigne
                             , idCaseString);
                 }
-                coordonee[idCase][0]= xCaseLigneImpaire-(dCercle*decalage);
-                coordonee[idCase][1]= yLigne;
+                coordonnee[idCase][0]= xCaseLigneImpaire-(dCercle*decalage);
+                coordonnee[idCase][1]= yLigne;
                 idCase++;
             }
             yLigne-= dCercle+1;
         }
         /*
-        Toute la partie avec le decalage est la car il était plus simple de crée
-        un triangle rectangle plutot qu'une piramide un fois le triangle rectangle
-        créer il ne restait plus qu'a décaler les niveaux plutot que de donner les
-        bonne coordonées directement
+        Toute la partie avec le décalage est la car il était plus simple de créer
+        un triangle rectangle plutôt qu'une pyramid une fois le triangle rectangle
+        créer il ne restait plus qu'à décaler les niveaux plutôt que de donner les
+        bonnes coordonnées directement
 
-        Il y a une différenciation entre les lignes impaires et paire car les dernieres
-        ne pouvait pas etre centre comme les lignes impaires pour palier a ce probleme
-        il suffit de decaler les lignes paires d'une distance éguale au rayon du cercle
+        Il y a une différenciation entre les lignes impaires et paire, car les dernières
+        ne pouvait pas être centre comme les lignes impaires pour palier a ce problème
+        il suffit de décaler les lignes paires d'une distance égale au rayon du cercle
         qui représente les cases
          */
     }
@@ -622,12 +636,12 @@ public class Jeton {
      * Affiche le plateau de jeu en mode graphique
      */
     public static void afficheJeuStdDraw(){
-        double yLigne= 80;//initialisation de l'ordonnées des lignes de valeurs
-        double dCercle = 2 * RCERCLE;
+        double yLigne= 80;//initialisation de l'ordonnée des lignes de valeurs
+        double dCercle = 2 * R_CERCLE;
         int idCase=0;
         int decalage=0;
         for (int ligne = 1; ligne <= N_LIGNES; ligne++){   // Parcours des lignes
-            if ((ligne%2)==0)             // augmente le décalage toute les ligne paires
+            if ((ligne%2)==0)             // augmente le décalage toute les ligne pairs
                 decalage++;
             for (int emplacement = 0 ; emplacement < ligne ; emplacement++){
                 if (!state[idCase].isEmpty()){
@@ -650,14 +664,14 @@ public class Jeton {
      * @param emplacement place dans la ligne
      * @param ligne ligne de la case
      * @param decalage décalage nécessaire pour cette ligne
-     * @param yLigne ordonnée de la lignes
+     * @param yLigne ordonnée de la ligne
      */
     private static void afficheJeuStdDraw2(int idCase
             , int emplacement
             , int ligne
             , int decalage
             , double yLigne){
-        double dCercle = 2 * RCERCLE;
+        double dCercle = 2 * R_CERCLE;
         double xCaseLignePaire;
         double xCaseLigneImpaire;
         if ( (state[idCase].substring(0, 1)).equals(COULEURS[0]) ){
@@ -666,12 +680,12 @@ public class Jeton {
         else {
             StdDraw.setPenColor(StdDraw.RED);
         }
-        xCaseLignePaire = RCERCLE+dCercle*emplacement;
+        xCaseLignePaire = R_CERCLE +dCercle*emplacement;
         xCaseLigneImpaire = (0+dCercle*emplacement);
         if ( ( ligne % 2 ) != 0){
             StdDraw.filledCircle(xCaseLigneImpaire-(dCercle*decalage)
                     , yLigne
-                    , RCERCLE);
+                    , R_CERCLE);
             StdDraw.setPenColor(StdDraw.WHITE);
             StdDraw.text(xCaseLigneImpaire-(dCercle*decalage)
                     , yLigne
@@ -680,7 +694,7 @@ public class Jeton {
         else {
             StdDraw.filledCircle(xCaseLignePaire-(dCercle*decalage)
                     , yLigne
-                    , RCERCLE);
+                    , R_CERCLE);
             StdDraw.setPenColor(StdDraw.WHITE);
             StdDraw.text(xCaseLignePaire-(dCercle*decalage)
                     , yLigne
@@ -690,7 +704,7 @@ public class Jeton {
     }
 
     /**
-     * fait apparatre une fennetre graphique qui demande a l'utilisateur de choisir entre 1 et 2
+     * Fait apparaitre une fenêtre graphique qui demande a l'utilisateur de choisir entre 1 et 2
      * @return true si le joueur veux jouer seul, et false si non.
      */
     public static boolean isSingle(){
@@ -711,13 +725,13 @@ public class Jeton {
         StdDraw.text(50, -10, "Jouer contre l'IA");
 
         do {
-            // Si le joueur clique sur la case jouer contre l'ia (droite) rendre true
+            // Si le joueur clique sur la case jouer contre l'IA (droite) rendre true
             if (StdDraw.isMousePressed() && StdDraw.mouseX() >= 0){
                 System.out.println(true);
                 StdDraw.pause(500);
                 return true;
             }
-            // Si le joueur clique sur la case deux joueur (gauche) rendre false
+            // Si le joueur clique sur la case deux joueurs (gauche) rendre false
             else if (StdDraw.isMousePressed() && StdDraw.mouseX() < 0){
                 System.out.println(false);
                 StdDraw.pause(500);
@@ -729,8 +743,8 @@ public class Jeton {
 
 
     /**
-     * demande le niveau de l'ia au joueur
-     * @return le niveau de l'ia
+     * demande le niveau de l'IA au joueur
+     * @return le niveau de l'IA
      */
     public static int iaLevel(){
         StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
@@ -749,27 +763,27 @@ public class Jeton {
         StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.text(0, -70, "Difficile");
         StdDraw.setPenColor(StdDraw.BLACK);
-        StdDraw.text(0, 90, "Difficulter IA");
+        StdDraw.text(0, 90, "Difficulté de l'IA");
         StdDraw.setPenRadius(0.01);
         StdDraw.line(-100, 80, 100, 80);
         StdDraw.line(-100, 20, 100, 20);
         StdDraw.line(-100, -40, 100, -40);
         do {
-            // Si le joueur clique sur la case du haut rendre 0 ( absycce entre 20 et 80) 
+            // Si le joueur clique sur la case du haut rendre 0 (abscisse entre 20 et 80)
             if (StdDraw.isMousePressed()
                     && StdDraw.mouseY() < 80
                     && StdDraw.mouseY() > 20){
                 System.out.println(0);
                 return 0;
             }
-            // Si le joueur clique sur la case du millieu rendre 1 ( absycce entre -40 et 20)
+            // Si le joueur clique sur la case du milieu rendre 1 (abscisse entre -40 et 20)
             else if (StdDraw.isMousePressed()
                     && StdDraw.mouseY() < 20
                     && StdDraw.mouseY() > -40){
                 System.out.println(1);
                 return 1;
             }
-            // Si le joueur clique sur la case du bas rendre 2 ( absycce entre -100 et -40)
+            // Si le joueur clique sur la case du bas rendre 2 (abscisse entre -100 et -40)
             else if (StdDraw.mousePressed()
                     && StdDraw.mouseY() < -40){
                 System.out.println(2);
@@ -781,10 +795,12 @@ public class Jeton {
     }
 
     /**
-     * Demande au joueur la case qu'il veux jouer
-     * Cette fonction recupere les coordonée des cases obtenue lors de l'initialisation
-     * et verifie si le joueur clique dans un carrée de demis distance le rayon du cercle et avec pour centre les coordonées récuperrer
-     * La zone de verifification et carré elle est donc plus grande que les cercles apparent mais le fonctionement restera inchanger
+     * Demande au joueur la case qu'il veut jouer
+     * Cette fonction récupère les coordonnées des cases obtenues lors de l'initialisation
+     * et verifies si le joueur clique dans un carré de demis distance le rayon du cercle
+     * et avec pour centre les coordonnées récupérer.
+     * La zone de verification et carré elle est donc plus grande que les cercles
+     * apparents, mais le fonctionnement restera identique.
      * @return l'id de la case que le joueur veux jouer
      */
     private static int actionJoueur(){
@@ -792,7 +808,7 @@ public class Jeton {
         boolean test;
         do {
             for (int i = 0; i < N_CASES; i++){
-                test = checkcliquecase(i);
+                test = checkCliqueCase(i);
                 if (test){
                     return i;
                 }
@@ -802,27 +818,27 @@ public class Jeton {
     }
 
     /**
-     * Verifie si le joueur a clique sur la case i
+     * Vérifie si le joueur à clique sur la case i
      * @param i id de la case
-     * @return true si le joueur a cliquer, false dans le cas contraire
+     * @return true si le joueur à cliquer, false dans le cas contraire
      */
-    private static Boolean checkcliquecase(int i){
-        if ((numligne(i)%2)==0){
+    private static Boolean checkCliqueCase(int i){
+        if ((numLigne(i)%2)==0){
             if (StdDraw.isMousePressed()
-                    && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
-                    && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
-                    && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE*2)
-                    && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE*2)){
+                    && StdDraw.mouseY() <= (coordonnee[i][1]+ R_CERCLE)
+                    && StdDraw.mouseY() >= (coordonnee[i][1]- R_CERCLE)
+                    && StdDraw.mouseX() <= (coordonnee[i][0]+ R_CERCLE *2)
+                    && StdDraw.mouseX() >= (coordonnee[i][0]- R_CERCLE *2)){
                 System.out.println(i);
                 return Boolean.TRUE;
             }
         }
         else {
             if (StdDraw.isMousePressed()
-                    && StdDraw.mouseY() <= (coordonee[i][1]+RCERCLE)
-                    && StdDraw.mouseY() >= (coordonee[i][1]-RCERCLE)
-                    && StdDraw.mouseX() <= (coordonee[i][0]+RCERCLE)
-                    && StdDraw.mouseX() >= (coordonee[i][0]-RCERCLE)){
+                    && StdDraw.mouseY() <= (coordonnee[i][1]+ R_CERCLE)
+                    && StdDraw.mouseY() >= (coordonnee[i][1]- R_CERCLE)
+                    && StdDraw.mouseX() <= (coordonnee[i][0]+ R_CERCLE)
+                    && StdDraw.mouseX() >= (coordonnee[i][0]- R_CERCLE)){
                 System.out.println(i);
                 return Boolean.TRUE;
             }
@@ -834,18 +850,19 @@ public class Jeton {
 
 
     /**
-     * affiche le resultat de la manche et demande si il veux faire une autre manche
-     * cette methode affiche aussi le score des joueur a traver les différente manche
+     * affiche le résultat de la manche et demande s'il veut faire une autre manche
+     * cette methode affiche aussi le score des joueurs a traver les différentes manches
      * @param sumB somme bleu
      * @param sumR somme rouge
      */
     private static Boolean scoreStdDraw(int sumB, int sumR){
+        StdDraw.pause(3000);
         StdDraw.setXscale(-100, 100); // fixe l'amplitude des abscisses dans la fenêtre
         StdDraw.setYscale(-100, 100); // fixe l'amplitude des ordonnées dans la fenêtre
         StdDraw.clear(StdDraw.WHITE); //fond d'écrans en blanc
         String contre =" contre ";
 
-        //resultat de la manche
+        // Résultat de la manche
         if (sumB < sumR){
             StdDraw.setPenColor(StdDraw.BLUE);
             StdDraw.filledRectangle(0, 42.5, 100, 37.5);
@@ -888,7 +905,7 @@ public class Jeton {
             StdDraw.setPenColor(StdDraw.PINK);
             StdDraw.filledRectangle(0, -32.5, 100, 37.5);
             StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.text(0, -32.5, "Egalité avec " + scoreRouges + PARTOUT);
+            StdDraw.text(0, -32.5, "Égalité avec " + scoreRouges + PARTOUT);
         }
 
         StdDraw.setPenColor(StdDraw.RED);
@@ -903,7 +920,7 @@ public class Jeton {
         StdDraw.line(0, -70, 0, -100);
         StdDraw.text(0, 90, "Tableau des scores");
         StdDraw.text(50, -85, "Continuer la partie ");
-        StdDraw.text(-50, -85, " Arreter la partie ");
+        StdDraw.text(-50, -85, " Arrêter la partie ");
 
         do {
             if (StdDraw.isMousePressed()
