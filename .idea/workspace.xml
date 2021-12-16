@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="643a65ea-c039-419f-9d4c-82e228f380c1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Jeton.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Jeton.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Jeton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Jeton.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +37,7 @@
       <workItem from="1639563836447" duration="933000" />
       <workItem from="1639570383774" duration="600000" />
       <workItem from="1639579861501" duration="2191000" />
-      <workItem from="1639662033703" duration="6301000" />
+      <workItem from="1639662033703" duration="6348000" />
     </task>
     <servers />
   </component>

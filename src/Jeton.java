@@ -61,7 +61,6 @@ public class Jeton {
             System.out.println("Jouer seul ? ");
             reponse = input.next().charAt(0);
             boolean single = estOui(reponse);
-            isSingle();
             */
 
             // version StdDraw
