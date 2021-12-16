@@ -720,7 +720,7 @@ public class Jeton {
         StdDraw.line(0, 80, 0, -100);
         StdDraw.line(-100, 80, 100, 80);
         StdDraw.setPenColor(StdDraw.WHITE);
-        StdDraw.text(-50, -10, "Deux joueur");
+        StdDraw.text(-50, -10, "Deux joueurs");
         StdDraw.text(50, -10, "Jouer contre l'IA");
 
         do {

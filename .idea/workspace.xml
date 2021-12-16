@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="643a65ea-c039-419f-9d4c-82e228f380c1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/f/3fc0d6f163c46b5d591ae608e17a9a059101f7e0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Jeton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Jeton.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +41,7 @@
       <workItem from="1639570383774" duration="600000" />
       <workItem from="1639579861501" duration="2191000" />
       <workItem from="1639662033703" duration="7296000" />
+      <workItem from="1639669530482" duration="33000" />
     </task>
     <servers />
   </component>
