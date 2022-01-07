@@ -1,9 +1,8 @@
-
 import java.util.*;
 
 /**
  * Created by zulupero on 24/09/2021.
- * Updated by Villerot Justin and VALENNE Nathan on  16/11/2021.
+ * Updated by Villerot Justin and VALENNE Nathan on  07/01/2022.
  * Group 18
  */
 public class Jeton {
@@ -36,6 +35,7 @@ public class Jeton {
     // sonarlint demandait de créer cette constante, car cette chaine de texte était utilisé plusieurs fois
     public static final int SIZE = 100;
     // taille de la fenêtre StdDraw qui affiche les cases
+
 
     static boolean estOui(char reponse) {
         return "yYoO".indexOf(reponse) != -1;
@@ -134,6 +134,7 @@ public class Jeton {
             reponse = input.next().charAt(0);
             newDeal = estOui(reponse);
              */
+            score(sumB, sumR);
 
             // Version StdDraw
             newDeal = scoreStdDraw(sumB, sumR);
@@ -493,7 +494,7 @@ public class Jeton {
         else if (scoreRouges == scoreBleus)
             System.out.println("Égalité : "+scoreRouges+ PARTOUT);
         else {
-            System.out.println("Les Rouges gagnent la partie par "
+            System.out.println("Les rouges gagnent la partie par "
                     +scoreRouges+" manche à "+scoreBleus);
         }
     }
