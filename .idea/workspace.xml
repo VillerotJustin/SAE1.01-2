@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="643a65ea-c039-419f-9d4c-82e228f380c1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/f/3fc0d6f163c46b5d591ae608e17a9a059101f7e0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Jeton.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/Jeton.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Jeton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Jeton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StdDraw$RetinaImageIcon.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/StdDraw$RetinaImageIcon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StdDraw.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/StdDraw.class" afterDir="false" />
-    </list>
+    <list default="true" id="643a65ea-c039-419f-9d4c-82e228f380c1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +41,7 @@
       <workItem from="1639670743500" duration="361000" />
       <workItem from="1641474731992" duration="3184000" />
       <workItem from="1641539654059" duration="4336000" />
+      <workItem from="1642597544754" duration="10000" />
     </task>
     <servers />
   </component>
